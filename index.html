@@ -240,14 +240,63 @@
       color: var(--ln-text);
     }
 
-    .ud-features,
-    .ud-about,
-    .ud-pricing,
-    .ud-faq {
-      background: linear-gradient(180deg, rgba(10, 12, 22, 0.8), rgba(8, 9, 16, 0.95));
-      border-top: 1px solid rgba(255, 255, 255, 0.04);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    .ln-section {
+      position: relative;
+      overflow: hidden;
+      background: var(--ln-section-bg, linear-gradient(180deg, rgba(10, 12, 22, 0.8), rgba(8, 9, 16, 0.95)));
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
       color: var(--ln-text);
+    }
+
+    .ln-section::before {
+      content: "";
+      position: absolute;
+      inset: -30% 0;
+      background: var(--ln-section-glow, none);
+      opacity: 0.7;
+      pointer-events: none;
+      mix-blend-mode: screen;
+    }
+
+    .ln-section > .container {
+      position: relative;
+      z-index: 1;
+    }
+
+    .ln-section--devices {
+      --ln-section-bg: linear-gradient(160deg, rgba(12, 16, 30, 0.95), rgba(8, 10, 18, 0.9));
+      --ln-section-glow:
+        radial-gradient(600px 280px at 20% 20%, rgba(39, 215, 255, 0.18), transparent 60%),
+        radial-gradient(500px 260px at 85% 70%, rgba(123, 44, 255, 0.2), transparent 62%);
+    }
+
+    .ln-section--extensions {
+      --ln-section-bg: linear-gradient(170deg, rgba(10, 11, 20, 0.95), rgba(9, 12, 24, 0.9));
+      --ln-section-glow:
+        radial-gradient(620px 320px at 70% 25%, rgba(255, 30, 230, 0.16), transparent 65%),
+        radial-gradient(520px 280px at 15% 80%, rgba(39, 215, 255, 0.14), transparent 62%);
+    }
+
+    .ln-section--bootstrap {
+      --ln-section-bg: linear-gradient(160deg, rgba(9, 12, 22, 0.96), rgba(7, 9, 16, 0.92));
+      --ln-section-glow:
+        radial-gradient(680px 320px at 10% 20%, rgba(123, 44, 255, 0.2), transparent 65%),
+        radial-gradient(520px 260px at 85% 65%, rgba(255, 30, 230, 0.14), transparent 62%);
+    }
+
+    .ln-section--frameworks {
+      --ln-section-bg: linear-gradient(160deg, rgba(10, 13, 24, 0.96), rgba(6, 8, 14, 0.94));
+      --ln-section-glow:
+        radial-gradient(600px 300px at 80% 15%, rgba(39, 215, 255, 0.2), transparent 65%),
+        radial-gradient(480px 240px at 20% 75%, rgba(123, 44, 255, 0.16), transparent 62%);
+    }
+
+    .ln-section--connect {
+      --ln-section-bg: linear-gradient(165deg, rgba(8, 10, 18, 0.96), rgba(6, 7, 13, 0.95));
+      --ln-section-glow:
+        radial-gradient(640px 320px at 15% 25%, rgba(255, 30, 230, 0.18), transparent 65%),
+        radial-gradient(520px 260px at 90% 70%, rgba(39, 215, 255, 0.12), transparent 62%);
     }
 
     .ud-widget-desc,
@@ -520,7 +569,7 @@
     <!-- ====== Hero End ====== -->
 
     <!-- ====== Features Start ====== -->
-    <section id="features" class="ud-features">
+    <section id="features" class="ud-features ln-section ln-section--devices">
       <div class="container">
         <div class="row">
           <div class="col-lg-12">
@@ -567,7 +616,7 @@
 
     <!-- ====== About Start ====== -->
 
-    <section id="extensions" class="ud-about">
+    <section id="extensions" class="ud-about ln-section ln-section--extensions">
 
       <div class="container">
         <div class="row">
@@ -601,7 +650,7 @@
     <!-- ====== About End ====== -->
 
     <!-- ====== Features Start ====== -->
-    <section id="features" class="ud-features">
+    <section id="features" class="ud-features ln-section ln-section--bootstrap">
       <div class="container">
         <div class="row">
           <div class="col-lg-12">
@@ -637,7 +686,7 @@
 
 
     <!-- ====== Pricing Start ====== -->
-    <section id="frameworks" class="ud-pricing">
+    <section id="frameworks" class="ud-pricing ln-section ln-section--frameworks">
       <div class="container">
         <div class="row">
           <div class="col">
@@ -688,7 +737,7 @@
     <!-- ====== Pricing End ====== -->
 
     <!-- ====== FAQ Start ====== -->
-    <section id="connect" class="ud-faq">
+    <section id="connect" class="ud-faq ln-section ln-section--connect">
       <div class="shape">
         <img src="assets/images/faq/shape.svg" alt="shape" loading="lazy" decoding="async" />
       </div>
