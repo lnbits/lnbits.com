@@ -669,6 +669,8 @@
         var cardCount = extensions.length || 1;
         var duration = Math.max(28, Math.min(90, Math.ceil(cardCount / 2) * 6));
         track.style.setProperty('--scroll-duration', duration + 's');
+        document.documentElement.style.setProperty('--extensions-scroll-duration', duration + 's');
+        window.dispatchEvent(new CustomEvent('extensions-scroll-duration', { detail: { duration: duration } }));
       }
 
       fetch(sourceUrl)

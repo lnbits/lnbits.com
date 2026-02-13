@@ -275,24 +275,46 @@ window.addEventListener("DOMContentLoaded", () => {
 
       track.appendChild(fragment);
 
-      const extensionsTrack = document.getElementById("ln-extensions-track");
-      let duration = null;
-      if (extensionsTrack) {
-        const value = window.getComputedStyle(extensionsTrack).getPropertyValue("--scroll-duration").trim();
-        if (value) {
-          if (value.endsWith("ms")) {
-            duration = parseFloat(value) / 1000;
-          } else if (value.endsWith("s")) {
-            duration = parseFloat(value);
-          } else {
-            duration = parseFloat(value);
-          }
+      function parseDuration(value) {
+        if (!value) {
+          return null;
         }
+        const trimmed = value.trim();
+        if (!trimmed) {
+          return null;
+        }
+        if (trimmed.endsWith("ms")) {
+          return parseFloat(trimmed) / 1000;
+        }
+        if (trimmed.endsWith("s")) {
+          return parseFloat(trimmed);
+        }
+        return parseFloat(trimmed);
       }
-      if (!duration || Number.isNaN(duration)) {
+
+      function applyContribSpeed(seconds) {
+        if (!seconds || Number.isNaN(seconds)) {
+          return;
+        }
+        const slower = seconds * 1.5;
+        track.style.animationDuration = slower + "s";
+      }
+
+      let duration = null;
+      const rootValue = window.getComputedStyle(document.documentElement)
+        .getPropertyValue("--extensions-scroll-duration");
+      duration = parseDuration(rootValue);
+
+      if (!duration) {
         duration = Math.max(40, items.length * 1.1);
       }
-      track.style.animationDuration = duration + "s";
+      applyContribSpeed(duration);
+
+      window.addEventListener("extensions-scroll-duration", (event) => {
+        if (event && event.detail && typeof event.detail.duration === "number") {
+          applyContribSpeed(event.detail.duration);
+        }
+      });
     }
 
     fetch("https://api.github.com/repos/lnbits/lnbits", {

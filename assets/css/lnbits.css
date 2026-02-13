@@ -735,3 +735,39 @@ body.body--dark {
     background-position: 40% 20%, 60% 0%, 70% 30%;
   }
 }
+
+@-moz-document url-prefix() {
+  .ud-header,
+  .ln-btn-outline,
+  .ln-btn-tile,
+  .ln-card,
+  .ln-video-btn,
+  .ln-extension-card {
+    backdrop-filter: none;
+  }
+
+  .ud-hero,
+  .ud-hero::before {
+    animation: none;
+  }
+
+  .ln-section::before {
+    mix-blend-mode: normal;
+    opacity: 0.35;
+  }
+
+  .ln-contrib-marquee {
+    mask-image: none;
+  }
+
+  .ln-contrib-marquee::before,
+  .ln-contrib-marquee::after {
+    display: none;
+  }
+
+  .ln-funding-logos,
+  .navbar-brand img,
+  .ud-footer .ud-footer-logo img {
+    filter: none;
+  }
+}
