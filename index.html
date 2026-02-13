@@ -336,16 +336,17 @@
             <div class="row ln-extensions-row">
               <div class="col">
                 <h2 class="q-pb-lg" data-i18n="extensions.title">LNbits extension universe.</h2>
-                <h6 class="q-pb-lg" data-i18n="extensions.subtitle">
-                  Extend YOUR LNbits to meet YOUR needs.
-                </h6>
-                <p data-i18n="extensions.body" data-i18n-html="true">
-                  All non-core features are installed as extensions,
-                  reducing your code base and making your LNbits unique to you.
-                  <br />
-                  Extend your LNbits install in any direction, and even create and
-                  share your own extensions.
-                </p>
+<h6 class="q-pb-lg" data-i18n="extensions.subtitle">
+  Build LNbits your way.
+</h6>
+
+<p data-i18n="extensions.body" data-i18n-html="true">
+  LNbits keeps the core minimal and powerful.
+  Everything else lives as optional extensions — so you only run what you actually need.
+  <br />
+  Add features, remove bloat, and even build and share your own extensions.
+</p>
+
               </div>
               <div class="col gt-md ln-extensions-wall">
                 <div class="ln-extensions-wall__frame">
@@ -680,7 +681,17 @@
             var bn = (b.name || b.id || '').toLowerCase();
             return an.localeCompare(bn);
           });
-          buildTrack(unique);
+          var padded = unique.slice();
+          if (padded.length) {
+            var remainder = padded.length % 4;
+            if (remainder !== 0) {
+              var needed = 4 - remainder;
+              for (var i = 0; i < needed; i++) {
+                padded.push(padded[i % padded.length]);
+              }
+            }
+          }
+          buildTrack(padded);
         })
         .catch(function() {
           track.innerHTML = '';

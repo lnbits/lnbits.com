@@ -275,11 +275,24 @@ window.addEventListener("DOMContentLoaded", () => {
 
       track.appendChild(fragment);
 
-      const duration = Math.max(40, items.length * 1.1);
-      track.style.animationDuration = duration + "s";
-      if (window.innerWidth <= 767) {
-        track.style.animationDuration = duration * 1.6 + "s";
+      const extensionsTrack = document.getElementById("ln-extensions-track");
+      let duration = null;
+      if (extensionsTrack) {
+        const value = window.getComputedStyle(extensionsTrack).getPropertyValue("--scroll-duration").trim();
+        if (value) {
+          if (value.endsWith("ms")) {
+            duration = parseFloat(value) / 1000;
+          } else if (value.endsWith("s")) {
+            duration = parseFloat(value);
+          } else {
+            duration = parseFloat(value);
+          }
+        }
       }
+      if (!duration || Number.isNaN(duration)) {
+        duration = Math.max(40, items.length * 1.1);
+      }
+      track.style.animationDuration = duration + "s";
     }
 
     fetch("https://api.github.com/repos/lnbits/lnbits", {
