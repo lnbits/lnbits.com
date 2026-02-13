@@ -333,7 +333,7 @@
         <div class="row">
           <div class="col-lg-12">
 
-            <div class="row">
+            <div class="row ln-extensions-row">
               <div class="col">
                 <h2 class="q-pb-lg" data-i18n="extensions.title">LNbits extension universe.</h2>
                 <h6 class="q-pb-lg" data-i18n="extensions.subtitle">
@@ -347,9 +347,10 @@
                   share your own extensions.
                 </p>
               </div>
-              <div class="col gt-md">
-                <img src="./assets/images/hero/lnbits-extensions.png"
-                  style="box-shadow: 0 0 10px #B395B6;margin-top: 40px;" loading="lazy" decoding="async">
+              <div class="col gt-md ln-extensions-wall">
+                <div class="ln-extensions-wall__frame">
+                  <div class="ln-extensions-wall__track" id="ln-extensions-track"></div>
+                </div>
               </div>
             </div>
 
@@ -579,6 +580,113 @@
   <script src="assets/js/lang-select.js"></script>
   <script src="assets/js/saas.js"></script>
   <script src="assets/js/landing.js"></script>
+  <script>
+    (function() {
+      var track = document.getElementById('ln-extensions-track');
+      if (!track) return;
+
+      var sourceUrl = 'https://raw.githubusercontent.com/lnbits/lnbits-extensions/refs/heads/main/extensions.json';
+
+      function normalizeVersion(version) {
+        if (!version) return '0.0.0';
+        return String(version).replace(/^v/i, '').trim();
+      }
+
+      function compareVersions(a, b) {
+        var pa = normalizeVersion(a).split('.').map(Number);
+        var pb = normalizeVersion(b).split('.').map(Number);
+        for (var i = 0; i < Math.max(pa.length, pb.length); i++) {
+          var na = pa[i] || 0;
+          var nb = pb[i] || 0;
+          if (na !== nb) return na - nb;
+        }
+        return 0;
+      }
+
+      function pickLatestExtensions(list) {
+        var byId = {};
+        list.forEach(function(item) {
+          if (!item || !item.id) return;
+          var current = byId[item.id];
+          if (!current) {
+            byId[item.id] = item;
+            return;
+          }
+          if (compareVersions(item.version, current.version) >= 0) {
+            byId[item.id] = item;
+          }
+        });
+        return Object.keys(byId).map(function(key) { return byId[key]; });
+      }
+
+      function buildCard(ext) {
+        var card = document.createElement('a');
+        card.className = 'ln-extension-card';
+        card.href = 'https://extensions.lnbits.com/' + encodeURIComponent(ext.id);
+        card.target = '_blank';
+        card.rel = 'noopener noreferrer';
+
+        var icon = document.createElement('div');
+        icon.className = 'ln-extension-card__icon';
+        if (ext.icon) {
+          var img = document.createElement('img');
+          img.src = ext.icon;
+          img.alt = ext.name || ext.id;
+          img.loading = 'lazy';
+          img.decoding = 'async';
+          icon.appendChild(img);
+        } else {
+          icon.textContent = (ext.name || ext.id || '?').charAt(0).toUpperCase();
+        }
+
+        var text = document.createElement('div');
+        text.className = 'ln-extension-card__text';
+
+        var name = document.createElement('div');
+        name.className = 'ln-extension-card__name';
+        name.textContent = ext.name || ext.id;
+
+        text.appendChild(name);
+
+        card.appendChild(icon);
+        card.appendChild(text);
+        return card;
+      }
+
+      function buildTrack(extensions) {
+        var inner = document.createElement('div');
+        inner.className = 'ln-extensions-wall__grid';
+        extensions.forEach(function(ext) {
+          inner.appendChild(buildCard(ext));
+        });
+
+        var clone = inner.cloneNode(true);
+        track.innerHTML = '';
+        track.appendChild(inner);
+        track.appendChild(clone);
+
+        var cardCount = extensions.length || 1;
+        var duration = Math.max(28, Math.min(90, Math.ceil(cardCount / 2) * 6));
+        track.style.setProperty('--scroll-duration', duration + 's');
+      }
+
+      fetch(sourceUrl)
+        .then(function(resp) { return resp.json(); })
+        .then(function(data) {
+          var list = (data && data.extensions) ? data.extensions : [];
+          var unique = pickLatestExtensions(list);
+          unique.sort(function(a, b) {
+            var an = (a.name || a.id || '').toLowerCase();
+            var bn = (b.name || b.id || '').toLowerCase();
+            return an.localeCompare(bn);
+          });
+          buildTrack(unique);
+        })
+        .catch(function() {
+          track.innerHTML = '';
+        });
+    })();
+  </script>
 <div id="lnbits-chat-embed-root">
   <iframe id="lnbits-chat-embed-iframe" src="https://v1.lnbits.com/chat/embed/M8oXVLKhL3RXrxnNXtBBBf?min=1&label=Chat%20to%20us" style="position:fixed;right:24px;bottom:24px;width:360px;height:56px;border:0;border-radius:12px;box-shadow:0 16px 40px rgba(0,0,0,.35);z-index:9999;transition:height .2s ease;overflow:hidden;"></iframe>
 </div>
