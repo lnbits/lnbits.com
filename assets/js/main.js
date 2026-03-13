@@ -4,6 +4,9 @@
   // ======= Sticky
   window.onscroll = function () {
     const ud_header = document.querySelector(".ud-header");
+    if (!ud_header) {
+      return;
+    }
     const sticky = ud_header.offsetTop;
     const logo = document.querySelector(".navbar-brand img");
 
@@ -14,14 +17,17 @@
     }
 
     // === logo change
-    if (ud_header.classList.contains("sticky")) {
+    if (logo && ud_header.classList.contains("sticky")) {
       logo.src = "assets/images/logo/logo-2.svg";
-    } else {
+    } else if (logo) {
       logo.src = "assets/images/logo/logo.svg";
     }
 
     // show or hide the back-top-top button
     const backToTop = document.querySelector(".back-to-top");
+    if (!backToTop) {
+      return;
+    }
     if (
       document.body.scrollTop > 50 ||
       document.documentElement.scrollTop > 50
@@ -38,14 +44,20 @@
 
   document.querySelectorAll(".ud-menu-scroll").forEach((e) =>
     e.addEventListener("click", () => {
-      navbarToggler.classList.remove("active");
-      navbarCollapse.classList.remove("show");
+      if (navbarToggler) {
+        navbarToggler.classList.remove("active");
+      }
+      if (navbarCollapse) {
+        navbarCollapse.classList.remove("show");
+      }
     })
   );
-  navbarToggler.addEventListener("click", function () {
-    navbarToggler.classList.toggle("active");
-    navbarCollapse.classList.toggle("show");
-  });
+  if (navbarToggler && navbarCollapse) {
+    navbarToggler.addEventListener("click", function () {
+      navbarToggler.classList.toggle("active");
+      navbarCollapse.classList.toggle("show");
+    });
+  }
 
   // ===== submenu
   const submenuButton = document.querySelectorAll(".nav-item-has-children");
@@ -84,9 +96,12 @@
     return (-c / 2) * (t * (t - 2) - 1) + b;
   };
 
-  document.querySelector(".back-to-top").onclick = () => {
-    scrollTo(document.documentElement);
-  };
+  const backToTopButton = document.querySelector(".back-to-top");
+  if (backToTopButton) {
+    backToTopButton.onclick = () => {
+      scrollTo(document.documentElement);
+    };
+  }
 
 })();
 
