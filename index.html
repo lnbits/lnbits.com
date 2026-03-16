@@ -126,21 +126,76 @@
           <div class="row">
             <div class="col-lg-12">
               <div class="row justify-content-center align-items-end g-4">
-                <div v-for="product in productCards" :key="product.id" class="col-12 col-lg-4">
+                <div class="col-12 col-lg-4">
                   <a
-                    class="ln-landing-product d-block text-center"
-                    :href="product.href"
+                    class="ln-landing-product d-flex flex-column text-center"
+                    href="https://my.lnbits.com"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
                     <img
                       class="ln-landing-product__image img-fluid"
-                      :src="product.image"
-                      :alt="product.alt"
+                      src="assets/images/products/saas_small.png"
+                      alt="SaaS product image"
                       loading="eager"
                       decoding="async"
                     >
-                    <span class="ln-landing-product__title d-block">{{ product.title }} {{ product.price }}</span>
+                    <div class="ln-landing-product__body">
+                      <span class="ln-landing-product__title d-block">LNbitsSaaS</span>
+                      <ul class="ln-landing-product__bullets">
+                        <li>Setup: 2-5mins</li>
+                        <li>Fully managed</li>
+                        <li>99.9% uptime</li>
+                      </ul>
+                    </div>
+                  </a>
+                </div>
+                <div class="col-12 col-lg-4">
+                  <a
+                    class="ln-landing-product d-flex flex-column text-center"
+                    href="https://box.lnbits.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <img
+                      class="ln-landing-product__image img-fluid"
+                      src="assets/images/products/lnbitsbox_small.png"
+                      alt="LNbitsBox product image"
+                      loading="eager"
+                      decoding="async"
+                    >
+                    <div class="ln-landing-product__body">
+                      <span class="ln-landing-product__title d-block">LNbitsBox</span>
+                      <ul class="ln-landing-product__bullets">
+                        <li>Setup: 3-7mins</li>
+                        <li>Runs locally</li>
+                        <li>Plug &amp; play hardware</li>
+                      </ul>
+                    </div>
+                  </a>
+                </div>
+                <div class="col-12 col-lg-4">
+                  <a
+                    class="ln-landing-product d-flex flex-column text-center"
+                    href="https://github.com/lnbits/lnbits"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <img
+                      class="ln-landing-product__image img-fluid"
+                      src="assets/images/products/github_small.png"
+                      alt="Run Yourself product image"
+                      loading="eager"
+                      decoding="async"
+                    >
+                    <div class="ln-landing-product__body">
+                      <span class="ln-landing-product__title d-block">Run Yourself</span>
+                      <ul class="ln-landing-product__bullets">
+                        <li>Setup: 5-10mins</li>
+                        <li>Run anywhere</li>
+                        <li>Complete control</li>
+                      </ul>
+                    </div>
                   </a>
                 </div>
               </div>

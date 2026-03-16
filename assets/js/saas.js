@@ -60,32 +60,6 @@ const app = Vue.createApp({
                     timeFallback: "(38 secs)"
                 }
             ],
-            productCards: [
-                {
-                    id: "launch",
-                    title: "Launch",
-                    price: "$7 / month",
-                    href: "https://my.lnbits.com",
-                    image: "assets/images/products/saas_small.png",
-                    alt: "SaaS product image"
-                },
-                {
-                    id: "box",
-                    title: "LNbitsBox",
-                    price: "$299",
-                    href: "https://box.lnbits.com",
-                    image: "assets/images/products/lnbitsbox_small.png",
-                    alt: "LNbitsBox product image"
-                },
-                {
-                    id: "box",
-                    title: "Run Yourself",
-                    price: "",
-                    href: "https://box.lnbits.com",
-                    image: "assets/images/products/github_small.png",
-                    alt: "LNbitsBox product image"
-                }
-            ],
             url: "https://api.lnbits.com",
             prompt: false,
             instanceDialog: false,

@@ -39,7 +39,7 @@
   "extensions.title": "LNbits extension universe.",
   "extensions.subtitle": "Build LNbits your way.",
   "extensions.body": "LNbits keeps the core minimal and powerful. Everything else lives as optional extensions — so you only run what you actually need.<br /><br />Add features, remove bloat, and even build and share your own extensions.",
-  "bootstrap.title": "Bootstrap your bitcoin payments.",
+  "bootstrap.title": "Bootstrap your bitcoin                                                                                                                     payments.",
   "bootstrap.subtitle": "One API to rule them all.<br />Runs on ANY Lighting Network funding source",
   "bootstrap.list_html": "✔️ Free and open-source<br />✔️ 6 years of real world use and hardening<br />✔️ Cutting edge, with new funding sources being added regularly.<br />✔️ NOSTR and LNURL native: create boltcards, nostr relays, sell NIP05s, vouchers, etc.<br />✔️ No more refactoring code for developers; changing your funding source is trivial.<br />✔️ Eyes on the code; huge user and developer community keeping LNbits updated.",
   "frameworks.title": "Frameworks used in LNbits.",
