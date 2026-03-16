@@ -1,5 +1,42 @@
 // ===== Landing page behaviors (moved from index.html) =====
 window.addEventListener("DOMContentLoaded", () => {
+  (function initHeroTextFit() {
+    const intro = document.querySelector(".ln-hero-intro");
+    const title = intro ? intro.querySelector(".ud-hero-title") : null;
+    const desc = intro ? intro.querySelector(".ud-hero-desc") : null;
+    if (!intro || !title || !desc) {
+      return;
+    }
+
+    function fitElement(element, cssVar, maxPx, minPx) {
+      document.documentElement.style.setProperty(cssVar, maxPx + "px");
+      if (window.innerWidth <= 767) {
+        document.documentElement.style.removeProperty(cssVar);
+        return;
+      }
+
+      let size = maxPx;
+      while (element.scrollWidth > element.clientWidth && size > minPx) {
+        size -= 1;
+        document.documentElement.style.setProperty(cssVar, size + "px");
+      }
+    }
+
+    function fitHeroText() {
+      fitElement(title, "--ln-hero-title-size", 57.6, 36);
+      fitElement(desc, "--ln-hero-desc-size", 48, 28);
+    }
+
+    fitHeroText();
+    window.addEventListener("resize", fitHeroText);
+
+    if (window.LNbitsI18n && typeof window.LNbitsI18n.onChange === "function") {
+      window.LNbitsI18n.onChange(() => {
+        window.requestAnimationFrame(fitHeroText);
+      });
+    }
+  })();
+
   // ==== for menu scroll
   const pageLink = document.querySelectorAll(".ud-menu-scroll");
 
@@ -42,80 +79,6 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 
   window.document.addEventListener("scroll", onScroll);
-
-  (function initHeroRotation() {
-    let heroIndex = 0;
-    let heroTimer = null;
-
-    const tiles = Array.from(document.querySelectorAll(".ln-btn-tile"));
-
-    function getHeroProxy() {
-      const root = document.querySelector("#q-app");
-      if (!root || !root.__vue_app__ || !root.__vue_app__._instance) {
-        return null;
-      }
-      return root.__vue_app__._instance.proxy || null;
-    }
-
-    function getHeroSlides(vm) {
-      if (vm && Array.isArray(vm.heroSlides) && vm.heroSlides.length) {
-        return vm.heroSlides;
-      }
-      return [];
-    }
-
-    function applyHeroSlide(index, pause) {
-      const vm = getHeroProxy();
-      const heroSlides = getHeroSlides(vm);
-      if (!vm || !heroSlides[index]) {
-        return false;
-      }
-      if (typeof vm.setHeroSlide === "function") {
-        vm.setHeroSlide(heroSlides[index]);
-      }
-      if (pause) {
-        stopHeroRotation();
-      }
-      return true;
-    }
-
-    function startHeroRotation() {
-      if (heroTimer) {
-        return;
-      }
-      heroTimer = setInterval(() => {
-        heroIndex = (heroIndex + 1) % heroSlides.length;
-        applyHeroSlide(heroIndex, false);
-      }, 5500);
-    }
-
-    function stopHeroRotation() {
-      if (!heroTimer) {
-        return;
-      }
-      clearInterval(heroTimer);
-      heroTimer = null;
-    }
-
-    const readyCheck = setInterval(() => {
-      const hasProxy = applyHeroSlide(0, false);
-      if (hasProxy) {
-        clearInterval(readyCheck);
-        startHeroRotation();
-      }
-    }, 200);
-
-    tiles.forEach((tile) => {
-      tile.addEventListener("mouseenter", () => stopHeroRotation());
-      tile.addEventListener("mouseleave", () => startHeroRotation());
-    });
-
-    if (window.LNbitsI18n && typeof window.LNbitsI18n.onChange === "function") {
-      window.LNbitsI18n.onChange(() => {
-        applyHeroSlide(heroIndex, false);
-      });
-    }
-  })();
 
   (function initContributorsMarquee() {
     const track = document.getElementById("ln-contrib-track");
