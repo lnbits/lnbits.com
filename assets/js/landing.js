@@ -44,62 +44,10 @@ window.addEventListener("DOMContentLoaded", () => {
   window.document.addEventListener("scroll", onScroll);
 
   (function initHeroRotation() {
-    const heroSlides = [
-      {
-        id: "slide1",
-        img: "assets/images/hero/bitcoin-accounts.png",
-        embedLink: "b7Ou7XtqtRI",
-        titleKey: "hero.slide1.title",
-        timeKey: "hero.slide1.time",
-        titleFallback: "User/Wallet System",
-        timeFallback: "(43 secs)"
-      },
-      {
-        id: "slide2",
-        img: "assets/images/hero/bitcoin-extensions.png",
-        embedLink: "ymq_BXN4lu0",
-        titleKey: "hero.slide2.title",
-        timeKey: "hero.slide2.time",
-        titleFallback: "50+ Extensions",
-        timeFallback: "(38 secs)"
-      },
-      {
-        id: "slide3",
-        img: "assets/images/hero/lnbits-node-management.png",
-        embedLink: "LMs4bFrvy_Y",
-        titleKey: "hero.slide3.title",
-        timeKey: "hero.slide3.time",
-        titleFallback: "Admin Tooling",
-        timeFallback: "(48 secs)"
-      },
-      {
-        id: "slide4",
-        img: "assets/images/hero/lnbits-api-sdk.png",
-        embedLink: "b1a5XshX5dA",
-        titleKey: "hero.slide4.title",
-        timeKey: "hero.slide4.time",
-        titleFallback: "Supercharged API/SDK",
-        timeFallback: "(38 secs)"
-      }
-    ];
-
     let heroIndex = 0;
     let heroTimer = null;
 
     const tiles = Array.from(document.querySelectorAll(".ln-btn-tile"));
-    const heroSlideMap = heroSlides.reduce((acc, slide, index) => {
-      acc[slide.id] = index;
-      return acc;
-    }, {});
-
-    function t(key, fallback) {
-      const i18n = window.LNbitsI18n;
-      if (!i18n || typeof i18n.t !== "function") {
-        return fallback || key;
-      }
-      const value = i18n.t(key);
-      return value || fallback || key;
-    }
 
     function getHeroProxy() {
       const root = document.querySelector("#q-app");
@@ -109,25 +57,22 @@ window.addEventListener("DOMContentLoaded", () => {
       return root.__vue_app__._instance.proxy || null;
     }
 
-    function applyHeroSlide(index, pause) {
-      if (tiles[index]) {
-        tiles[index].dispatchEvent(new Event("mouseover", { bubbles: true }));
-        if (pause) {
-          stopHeroRotation();
-        }
-        return true;
+    function getHeroSlides(vm) {
+      if (vm && Array.isArray(vm.heroSlides) && vm.heroSlides.length) {
+        return vm.heroSlides;
       }
+      return [];
+    }
+
+    function applyHeroSlide(index, pause) {
       const vm = getHeroProxy();
+      const heroSlides = getHeroSlides(vm);
       if (!vm || !heroSlides[index]) {
         return false;
       }
-      const slide = heroSlides[index];
-      const title = t(slide.titleKey, slide.titleFallback);
-      const time = t(slide.timeKey, slide.timeFallback);
-      vm.slideimg = slide.img;
-      vm.embedLink = slide.embedLink;
-      vm.vidtitle = title;
-      vm.vidtime = time;
+      if (typeof vm.setHeroSlide === "function") {
+        vm.setHeroSlide(heroSlides[index]);
+      }
       if (pause) {
         stopHeroRotation();
       }
@@ -184,6 +129,10 @@ window.addEventListener("DOMContentLoaded", () => {
       forks: null,
       contributors: null
     };
+    const cacheTtlMs = 30 * 60 * 1000;
+    const repoCacheKey = "lnbits-github-repo-cache";
+    const contributorsCacheKey = "lnbits-github-contributors-cache";
+    let contributorsRendered = false;
 
     function formatCount(value) {
       if (typeof value !== "number") {
@@ -231,6 +180,11 @@ window.addEventListener("DOMContentLoaded", () => {
     }
 
     function renderContributors(items) {
+      if (contributorsRendered || !Array.isArray(items) || items.length === 0) {
+        return;
+      }
+      contributorsRendered = true;
+
       const fragment = document.createDocumentFragment();
       items.forEach((item) => {
         const link = document.createElement("a");
@@ -317,39 +271,108 @@ window.addEventListener("DOMContentLoaded", () => {
       });
     }
 
-    fetch("https://api.github.com/repos/lnbits/lnbits", {
-      headers: {
-        "Accept": "application/vnd.github+json"
-      }
-    })
-      .then((res) => (res.ok ? res.json() : null))
-      .then((repo) => {
-        if (!repo) {
-          return;
+    function loadCache(key) {
+      try {
+        const raw = window.localStorage.getItem(key);
+        if (!raw) {
+          return null;
         }
-        setMetricsText(repo.stargazers_count, repo.forks_count);
-      })
-      .catch(() => {
-        // Silently fail if rate limited or offline.
-      });
+        const parsed = JSON.parse(raw);
+        if (!parsed || typeof parsed !== "object") {
+          return null;
+        }
+        return parsed;
+      } catch (_error) {
+        return null;
+      }
+    }
 
-    fetch("https://api.github.com/repos/lnbits/lnbits/contributors?per_page=100", {
-      headers: {
-        "Accept": "application/vnd.github+json"
+    function saveCache(key, data) {
+      try {
+        window.localStorage.setItem(key, JSON.stringify({
+          timestamp: Date.now(),
+          data: data
+        }));
+      } catch (_error) {
+        // Ignore storage failures.
       }
-    })
-      .then((res) => (res.ok ? res.json() : []))
-      .then((data) => {
-        const contributors = Array.isArray(data) ? data : [];
-        if (contributors.length === 0) {
-          return;
+    }
+
+    function isFresh(entry) {
+      return !!entry &&
+        typeof entry.timestamp === "number" &&
+        (Date.now() - entry.timestamp) < cacheTtlMs;
+    }
+
+    function applyRepoData(repo) {
+      if (!repo) {
+        return;
+      }
+      setMetricsText(repo.stargazers_count, repo.forks_count);
+    }
+
+    function applyContributorsData(data) {
+      const contributors = Array.isArray(data) ? data : [];
+      if (contributors.length === 0) {
+        return;
+      }
+      setMetricsText(undefined, undefined, contributors.length);
+      renderContributors(contributors);
+    }
+
+    const cachedRepo = loadCache(repoCacheKey);
+    const cachedContributors = loadCache(contributorsCacheKey);
+
+    if (cachedRepo && cachedRepo.data) {
+      applyRepoData(cachedRepo.data);
+    }
+
+    if (cachedContributors && cachedContributors.data) {
+      applyContributorsData(cachedContributors.data);
+    }
+
+    if (!isFresh(cachedRepo)) {
+      fetch("https://api.github.com/repos/lnbits/lnbits", {
+        headers: {
+          "Accept": "application/vnd.github+json"
         }
-        setMetricsText(undefined, undefined, contributors.length);
-        renderContributors(contributors);
       })
-      .catch(() => {
-        // Silently fail if rate limited or offline.
-      });
+        .then((res) => (res.ok ? res.json() : null))
+        .then((repo) => {
+          if (!repo) {
+            return;
+          }
+          saveCache(repoCacheKey, repo);
+          applyRepoData(repo);
+        })
+        .catch(() => {
+          if (cachedRepo && cachedRepo.data) {
+            applyRepoData(cachedRepo.data);
+          }
+        });
+    }
+
+    if (!isFresh(cachedContributors)) {
+      fetch("https://api.github.com/repos/lnbits/lnbits/contributors?per_page=100", {
+        headers: {
+          "Accept": "application/vnd.github+json"
+        }
+      })
+        .then((res) => (res.ok ? res.json() : []))
+        .then((data) => {
+          const contributors = Array.isArray(data) ? data : [];
+          if (contributors.length === 0) {
+            return;
+          }
+          saveCache(contributorsCacheKey, contributors);
+          applyContributorsData(contributors);
+        })
+        .catch(() => {
+          if (cachedContributors && cachedContributors.data) {
+            applyContributorsData(cachedContributors.data);
+          }
+        });
+    }
 
     if (window.LNbitsI18n && typeof window.LNbitsI18n.onChange === "function") {
       window.LNbitsI18n.onChange(() => {

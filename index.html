@@ -58,7 +58,7 @@
                     <a class="ud-menu-scroll" href="#extensions" data-i18n="nav.extensions">Extensions</a>
                   </li>
                   <li class="nav-item">
-                    <a class="ud-menu-scroll" href="#frameworks" data-i18n="nav.frameworks">Frameworks</a>
+                    <a class="ud-menu-scroll" href="shop.lnbits.com" data-i18n="nav.store">Store</a>
                   </li>
                   <li class="nav-item">
                     <a class="ud-menu-scroll" href="#connect" data-i18n="nav.connect">Connect</a>
@@ -85,9 +85,6 @@
               <q-btn no-caps type="a" href="https://github.com/lnbits/lnbits#lnbits" rounded outline color="white" class="ln-btn-outline">
                 <div>
                   <span data-i18n="button.github">Github</span>
-                  <q-icon size="md">
-                    <img src="assets/images/github_white.png" style="width: 24px; height: 24px;" loading="lazy" decoding="async">
-                  </q-icon>
                 </div>
                 <q-tooltip data-i18n="tooltip.github">Checkout the repo</q-tooltip>
               </q-btn>
@@ -110,171 +107,58 @@
     </header>
     <!-- ====== Header End ====== -->
 
-    <!-- ====== Hero Start ====== -->
-    <section class="ud-hero" id="home">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-12">
-            <div class="ud-hero-content">
-              <h1 class="ud-hero-title" style="margin-bottom: 0px">
-                <span data-i18n="hero.title">The world's most powerful suite of bitcoin tools.</span>
-              </h1>
-              <p class="ud-hero-desc mb-1">
-                <span data-i18n="hero.subtitle">Run for yourself, for others, or as part of a stack.</span>
-              </p>
-
+    <div class="ln-landing-fold">
+      <!-- ====== Hero Start ====== -->
+      <section class="ud-hero" id="home">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="ud-hero-content ln-hero-intro">
+                <h1 class="ud-hero-title">
+                  <span data-i18n="hero.title">The world's most powerful suite of bitcoin tools.</span>
+                </h1>
+                <p class="ud-hero-desc mb-1">
+                  <span data-i18n="hero.subtitle">Run for yourself, for others, or as part of a stack.</span>
+                </p>
+              </div>
             </div>
-            <div class="q-pb-lg flex justify-center">
-              <q-btn
-              no-caps
-                text-color="black"
-                type="a"
-                href="https://my.lnbits.com"
-                size="lg"
-                class="ln-btn-primary"
-              >
-              <span data-i18n="button.launch">Launch</span>
-              <q-tooltip data-i18n="tooltip.launch">Launch your own LNbits instance</q-tooltip>
-            </q-btn>
-              <q-btn
-              no-caps
-                color="white"
-                text-color="black"
-                type="a"
-                href="https://extensions.lnbits.com"
-                class="q-ml-sm gt-sm ln-btn-outline"
-                size="lg"
-              >
-              <span data-i18n="button.extensions">Extensions</span>
-              <q-tooltip data-i18n="tooltip.extensions">Checkout the extensions in LNbits</q-tooltip>
-            </q-btn>
-            <q-btn
-            no-caps
-            color="white"
-            text-color="black"
-            type="a"
-            href="https://shop.lnbits.com"
-            class="q-ml-sm ln-btn-outline"
-            size="lg"
-            >
-            <span data-i18n="button.store">Store</span>
-            <q-tooltip data-i18n="tooltip.store">Visit the LNbits web store</q-tooltip>
-          </q-btn>
-            </div>
-            <div class="container-pic">
-              <div class="ud-hero-image">
-                <div class="img-gradient">
-                  <img :src="slideimg" alt="hero-image">
-                  </img>
-                </div>
-                <div class="centered-pic">
-                    <q-btn no-caps @click="ytpopup = true" rounded class="ln-video-btn">
-                      <div>
-                        <q-icon style="margin-bottom: -10px;" class="q-pr-sm" size="lg" name="play_arrow"></q-icon>
-                        <span v-text="vidtitle"></span>
-                        <br><small style="display: block; margin-top: -12px; text-align: left; padding-left: 45px;" v-text="vidtime"></small>
-                      </div>
-                    </q-btn>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="row justify-content-center align-items-end g-4">
+                <div v-for="product in productCards" :key="product.id" class="col-12 col-lg-4">
+                  <a
+                    class="ln-landing-product d-block text-center"
+                    :href="product.href"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <img
+                      class="ln-landing-product__image img-fluid"
+                      :src="product.image"
+                      :alt="product.alt"
+                      loading="eager"
+                      decoding="async"
+                    >
+                    <span class="ln-landing-product__title d-block">{{ product.title }} {{ product.price }}</span>
+                  </a>
                 </div>
               </div>
             </div>
-            <q-dialog v-model="ytpopup">
-              <q-card style="width: 90%; max-width: 80vw;" flat class="q-pa-none">
-                <q-card-section class="q-pa-none">
-                  <div class="video-container">
-                    <iframe
-                      :src="'https://www.youtube.com/embed/' + embedLink + '?autoplay=1&showinfo=0&rel=0&modestbranding=1'"
-                      title="YouTube video player"
-                      frameborder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      referrerpolicy="strict-origin-when-cross-origin"
-                      allowfullscreen
-                    ></iframe>
-                  </div>
-                </q-card-section>
-              </q-card>
-            </q-dialog>
-
-            <center>
-              <div class="row q-mt-xl gt-sm" style="width:80%">
-                <div class="col">
-                  <q-btn
-                    @mouseover="slideimg = 'assets/images/hero/bitcoin-accounts.png'; embedLink = 'b7Ou7XtqtRI'; vidtitle = 'User/Wallet System';  vidtime = '(43 secs)'"
-                    class="ln-btn-tile"
-                    data-hero-slide="slide1">
-                    <div class="row items-center no-wrap">
-                      <div class="text-center">
-                        <span data-i18n="hero.slide1.title">User/Wallet System</span>
-                        <br />
-                        <small data-i18n="hero.slide1.subtitle" data-i18n-html="true">Fully responsive web wallet<br /></small>
-                      </div>
-
-                    </div>
-                  </q-btn>
-                </div>
-                <div class="col">
-                  <q-btn
-                    @mouseover="slideimg = 'assets/images/hero/bitcoin-extensions.png'; embedLink = 'ymq_BXN4lu0'; vidtitle = '50+ Extensions';  vidtime = '(38 secs)'"
-                    class="ln-btn-tile"
-                    data-hero-slide="slide2">
-                    <div class="row items-center no-wrap">
-                      <div class="text-center">
-                        <span data-i18n="hero.slide2.title">50+ Extensions</span>
-                        <br />
-                        <small data-i18n="hero.slide2.subtitle" data-i18n-html="true">extension framework<br /></small>
-                      </div>
-
-                    </div>
-                  </q-btn>
-                </div>
-                <div class="col">
-                  <q-btn
-                    @mouseover="slideimg = 'assets/images/hero/lnbits-node-management.png'; embedLink = 'LMs4bFrvy_Y'; vidtitle = 'Admin Tooling';  vidtime = '(48 secs)'"
-                    class="ln-btn-tile"
-                    data-hero-slide="slide3">
-                    <div class="row items-center no-wrap">
-                      <div class="text-center">
-                        <span data-i18n="hero.slide3.title">Admin Tooling</span>
-                        <br />
-                        <small data-i18n="hero.slide3.subtitle" data-i18n-html="true">For LNbits/node/users<br /></small>
-                      </div>
-
-                    </div>
-                  </q-btn>
-                </div>
-                <div class="col">
-                  <q-btn
-                    @mouseover="slideimg = 'assets/images/hero/lnbits-api-sdk.png'; embedLink = 'b1a5XshX5dA'; vidtitle = 'Supercharged API/SDK';  vidtime = '(38 secs)'"
-                    class="ln-btn-tile"
-                    data-hero-slide="slide4">
-                    <div class="row items-center no-wrap">
-                      <div class="text-center">
-                        <span data-i18n="hero.slide4.title">Supercharged API/SDK</span>
-                        <br />
-                        <small data-i18n="hero.slide4.subtitle" data-i18n-html="true">LNbits core and extensions<br /></small>
-                      </div>
-
-                    </div>
-                  </q-btn>
-                </div>
-
-              </div>
-            </center>
           </div>
         </div>
-      </div>
+      </section>
+      <!-- ====== Hero End ====== -->
 
-    </section>
-    <!-- ====== Hero End ====== -->
-
-    <section class="ln-contrib-strip">
-      <div class="container">
-        <div class="ln-contrib-label" id="ln-repo-metrics" data-i18n="contributors.label">Contributors</div>
-        <div class="ln-contrib-marquee">
-          <div class="ln-contrib-track" id="ln-contrib-track"></div>
+      <section class="ln-contrib-strip">
+        <div class="container">
+          <div class="ln-contrib-label" id="ln-repo-metrics" data-i18n="contributors.label">Contributors</div>
+          <div class="ln-contrib-marquee">
+            <div class="ln-contrib-track" id="ln-contrib-track"></div>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
 
     <!-- ====== Features Start ====== -->
     <section id="features" class="ud-features ln-section ln-section--devices">
@@ -367,7 +251,7 @@
         <div class="row">
           <div class="col-lg-12">
             <center>
-            <h2 class="q-pb-lg" data-i18n="bootstrap.title">Bootstrap your lightning payments.</h2>
+            <h2 class="q-pb-lg" data-i18n="bootstrap.title">Bootstrap your bitcoin payments.</h2>
             </center>
             <div class="row">
               <div class="col gt-sm">

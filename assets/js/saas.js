@@ -14,6 +14,78 @@ const app = Vue.createApp({
             embedLink: "b7Ou7XtqtRI",
             vidtitle: "User/Wallet System",
             vidtime: "(43 secs)",
+            heroSlides: [
+                {
+                    id: "slide1",
+                    img: "assets/images/hero/bitcoin-accounts.png",
+                    embedLink: "b7Ou7XtqtRI",
+                    titleKey: "hero.slide1.title",
+                    subtitleKey: "hero.slide1.subtitle",
+                    timeKey: "hero.slide1.time",
+                    titleFallback: "User/Wallet System",
+                    subtitleFallback: "Fully responsive web wallet",
+                    timeFallback: "(43 secs)"
+                },
+                {
+                    id: "slide2",
+                    img: "assets/images/hero/bitcoin-extensions.png",
+                    embedLink: "ymq_BXN4lu0",
+                    titleKey: "hero.slide2.title",
+                    subtitleKey: "hero.slide2.subtitle",
+                    timeKey: "hero.slide2.time",
+                    titleFallback: "50+ Extensions",
+                    subtitleFallback: "extension framework",
+                    timeFallback: "(38 secs)"
+                },
+                {
+                    id: "slide3",
+                    img: "assets/images/hero/lnbits-node-management.png",
+                    embedLink: "LMs4bFrvy_Y",
+                    titleKey: "hero.slide3.title",
+                    subtitleKey: "hero.slide3.subtitle",
+                    timeKey: "hero.slide3.time",
+                    titleFallback: "Admin Tooling",
+                    subtitleFallback: "For LNbits/node/users",
+                    timeFallback: "(48 secs)"
+                },
+                {
+                    id: "slide4",
+                    img: "assets/images/hero/lnbits-api-sdk.png",
+                    embedLink: "b1a5XshX5dA",
+                    titleKey: "hero.slide4.title",
+                    subtitleKey: "hero.slide4.subtitle",
+                    timeKey: "hero.slide4.time",
+                    titleFallback: "Supercharged API/SDK",
+                    subtitleFallback: "LNbits core and extensions",
+                    timeFallback: "(38 secs)"
+                }
+            ],
+            productCards: [
+                {
+                    id: "launch",
+                    title: "Launch",
+                    price: "$7 / month",
+                    href: "https://my.lnbits.com",
+                    image: "assets/images/products/saas_small.png",
+                    alt: "SaaS product image"
+                },
+                {
+                    id: "box",
+                    title: "LNbitsBox",
+                    price: "$299",
+                    href: "https://box.lnbits.com",
+                    image: "assets/images/products/lnbitsbox_small.png",
+                    alt: "LNbitsBox product image"
+                },
+                {
+                    id: "box",
+                    title: "Run Yourself",
+                    price: "",
+                    href: "https://box.lnbits.com",
+                    image: "assets/images/products/github_small.png",
+                    alt: "LNbitsBox product image"
+                }
+            ],
             url: "https://api.lnbits.com",
             prompt: false,
             instanceDialog: false,
@@ -41,6 +113,25 @@ const app = Vue.createApp({
         }
     },
     methods: {
+        translateOrFallback: function(key, fallback) {
+            if (!window.LNbitsI18n || typeof window.LNbitsI18n.t !== "function") {
+                return fallback || key;
+            }
+            return window.LNbitsI18n.t(key) || fallback || key;
+        },
+        setHeroSlide: function(slide) {
+            if (!slide) {
+                return;
+            }
+            this.slideimg = slide.img;
+            this.embedLink = slide.embedLink;
+            this.vidtitle = this.translateOrFallback(slide.titleKey, slide.titleFallback);
+            this.vidtime = this.translateOrFallback(slide.timeKey, slide.timeFallback);
+        },
+        setHeroSlideById: function(id) {
+            const slide = this.heroSlides.find(item => item.id === id);
+            this.setHeroSlide(slide);
+        },
         date: function (date) {
           return moment.unix(date).format('YYYY-MM-DD, hh:mm');
         },
