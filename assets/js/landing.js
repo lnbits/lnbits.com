@@ -80,6 +80,129 @@ window.addEventListener("DOMContentLoaded", () => {
 
   window.document.addEventListener("scroll", onScroll);
 
+  (function initHeroRotation() {
+    const heroSlides = [
+      {
+        id: "slide1",
+        img: "assets/images/hero/bitcoin-accounts.png",
+        embedLink: "b7Ou7XtqtRI",
+        titleKey: "hero.slide1.title",
+        timeKey: "hero.slide1.time",
+        titleFallback: "User/Wallet System",
+        timeFallback: "(43 secs)"
+      },
+      {
+        id: "slide2",
+        img: "assets/images/hero/bitcoin-extensions.png",
+        embedLink: "ymq_BXN4lu0",
+        titleKey: "hero.slide2.title",
+        timeKey: "hero.slide2.time",
+        titleFallback: "50+ Extensions",
+        timeFallback: "(38 secs)"
+      },
+      {
+        id: "slide3",
+        img: "assets/images/hero/lnbits-node-management.png",
+        embedLink: "LMs4bFrvy_Y",
+        titleKey: "hero.slide3.title",
+        timeKey: "hero.slide3.time",
+        titleFallback: "Admin Tooling",
+        timeFallback: "(48 secs)"
+      },
+      {
+        id: "slide4",
+        img: "assets/images/hero/lnbits-api-sdk.png",
+        embedLink: "b1a5XshX5dA",
+        titleKey: "hero.slide4.title",
+        timeKey: "hero.slide4.time",
+        titleFallback: "Supercharged API/SDK",
+        timeFallback: "(38 secs)"
+      }
+    ];
+
+    let heroIndex = 0;
+    let heroTimer = null;
+
+    const tiles = Array.from(document.querySelectorAll(".ln-btn-tile"));
+
+    function t(key, fallback) {
+      const i18n = window.LNbitsI18n;
+      if (!i18n || typeof i18n.t !== "function") {
+        return fallback || key;
+      }
+      const value = i18n.t(key);
+      return value || fallback || key;
+    }
+
+    function getHeroProxy() {
+      const root = document.querySelector("#q-app");
+      if (!root || !root.__vue_app__ || !root.__vue_app__._instance) {
+        return null;
+      }
+      return root.__vue_app__._instance.proxy || null;
+    }
+
+    function stopHeroRotation() {
+      if (!heroTimer) {
+        return;
+      }
+      clearInterval(heroTimer);
+      heroTimer = null;
+    }
+
+    function applyHeroSlide(index, pause) {
+      if (tiles[index]) {
+        tiles[index].dispatchEvent(new Event("mouseover", { bubbles: true }));
+        if (pause) {
+          stopHeroRotation();
+        }
+        return true;
+      }
+      const vm = getHeroProxy();
+      if (!vm || !heroSlides[index]) {
+        return false;
+      }
+      const slide = heroSlides[index];
+      vm.slideimg = slide.img;
+      vm.embedLink = slide.embedLink;
+      vm.vidtitle = t(slide.titleKey, slide.titleFallback);
+      vm.vidtime = t(slide.timeKey, slide.timeFallback);
+      if (pause) {
+        stopHeroRotation();
+      }
+      return true;
+    }
+
+    function startHeroRotation() {
+      if (heroTimer) {
+        return;
+      }
+      heroTimer = setInterval(() => {
+        heroIndex = (heroIndex + 1) % heroSlides.length;
+        applyHeroSlide(heroIndex, false);
+      }, 5500);
+    }
+
+    const readyCheck = setInterval(() => {
+      const hasProxy = applyHeroSlide(0, false);
+      if (hasProxy) {
+        clearInterval(readyCheck);
+        startHeroRotation();
+      }
+    }, 200);
+
+    tiles.forEach((tile) => {
+      tile.addEventListener("mouseenter", () => stopHeroRotation());
+      tile.addEventListener("mouseleave", () => startHeroRotation());
+    });
+
+    if (window.LNbitsI18n && typeof window.LNbitsI18n.onChange === "function") {
+      window.LNbitsI18n.onChange(() => {
+        applyHeroSlide(heroIndex, false);
+      });
+    }
+  })();
+
   (function initContributorsMarquee() {
     const track = document.getElementById("ln-contrib-track");
     const metrics = document.getElementById("ln-repo-metrics");
