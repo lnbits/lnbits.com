@@ -84,7 +84,7 @@ window.addEventListener("DOMContentLoaded", () => {
     const heroSlides = [
       {
         id: "slide1",
-        img: "assets/images/hero/bitcoin-accounts.png",
+        img: "assets/images/hero/1.png",
         embedLink: "b7Ou7XtqtRI",
         titleKey: "hero.slide1.title",
         timeKey: "hero.slide1.time",
@@ -93,7 +93,7 @@ window.addEventListener("DOMContentLoaded", () => {
       },
       {
         id: "slide2",
-        img: "assets/images/hero/bitcoin-extensions.png",
+        img: "assets/images/hero/2.png",
         embedLink: "ymq_BXN4lu0",
         titleKey: "hero.slide2.title",
         timeKey: "hero.slide2.time",
@@ -102,7 +102,7 @@ window.addEventListener("DOMContentLoaded", () => {
       },
       {
         id: "slide3",
-        img: "assets/images/hero/lnbits-node-management.png",
+        img: "assets/images/hero/3.png",
         embedLink: "LMs4bFrvy_Y",
         titleKey: "hero.slide3.title",
         timeKey: "hero.slide3.time",
@@ -111,7 +111,7 @@ window.addEventListener("DOMContentLoaded", () => {
       },
       {
         id: "slide4",
-        img: "assets/images/hero/lnbits-api-sdk.png",
+        img: "assets/images/hero/4.png",
         embedLink: "b1a5XshX5dA",
         titleKey: "hero.slide4.title",
         timeKey: "hero.slide4.time",
@@ -124,7 +124,9 @@ window.addEventListener("DOMContentLoaded", () => {
     let heroTimer = null;
     let videoDialogOpen = false;
 
-    const tiles = Array.from(document.querySelectorAll(".ln-btn-tile"));
+    const tiles = Array.from(document.querySelectorAll(".ln-bootstrap-tile"));
+    const extensionCountEls = Array.from(document.querySelectorAll("[data-extension-count]"));
+    let extensionCount = null;
 
     function t(key, fallback) {
       const i18n = window.LNbitsI18n;
@@ -136,6 +138,9 @@ window.addEventListener("DOMContentLoaded", () => {
     }
 
     function getHeroProxy() {
+      if (window.lnbitsLandingApp) {
+        return window.lnbitsLandingApp;
+      }
       const root = document.querySelector("#q-app");
       if (!root || !root.__vue_app__ || !root.__vue_app__._instance) {
         return null;
@@ -143,11 +148,43 @@ window.addEventListener("DOMContentLoaded", () => {
       return root.__vue_app__._instance.proxy || null;
     }
 
+    function buildExtensionTitle(count) {
+      const fallback = count ? count + " Extensions" : "50+ Extensions";
+      const baseTitle = t("hero.slide2.title", "50+ Extensions");
+      if (!count) {
+        return baseTitle || fallback;
+      }
+      if (baseTitle && /\d+\+?/.test(baseTitle)) {
+        return baseTitle.replace(/\d+\+?/, String(count));
+      }
+      return fallback;
+    }
+
+    function applyExtensionCount(count) {
+      if (typeof count !== "number" || count <= 0) {
+        return;
+      }
+      extensionCount = count;
+      const display = String(count);
+      extensionCountEls.forEach((el) => {
+        el.textContent = display;
+      });
+
+      const vm = getHeroProxy();
+      const title = buildExtensionTitle(count);
+      if (vm) {
+        vm.dynamicExtensionTitle = title;
+        if (vm.embedLink === "ymq_BXN4lu0") {
+          vm.vidtitle = title;
+        }
+      }
+    }
+
     function stopHeroRotation() {
       if (!heroTimer) {
         return;
       }
-      clearInterval(heroTimer);
+      clearTimeout(heroTimer);
       heroTimer = null;
     }
 
@@ -158,53 +195,84 @@ window.addEventListener("DOMContentLoaded", () => {
         }
         return true;
       }
-      if (tiles[index]) {
-        tiles[index].dispatchEvent(new Event("mouseover", { bubbles: true }));
-        if (pause) {
-          stopHeroRotation();
-        }
-        return true;
-      }
       const vm = getHeroProxy();
       if (!vm || !heroSlides[index]) {
         return false;
       }
       const slide = heroSlides[index];
-      vm.slideimg = slide.img;
-      vm.embedLink = slide.embedLink;
-      vm.vidtitle = t(slide.titleKey, slide.titleFallback);
-      vm.vidtime = t(slide.timeKey, slide.timeFallback);
+      if (slide.id === "slide2") {
+        vm.dynamicExtensionTitle = vm.dynamicExtensionTitle || buildExtensionTitle(extensionCount);
+      }
+      if (typeof vm.activateHeroSlide === "function") {
+        vm.activateHeroSlide(slide.id);
+      } else {
+        vm.slideimg = slide.img;
+        vm.embedLink = slide.embedLink;
+        vm.vidtitle = slide.id === "slide2"
+          ? (vm.dynamicExtensionTitle || buildExtensionTitle(extensionCount))
+          : t(slide.titleKey, slide.titleFallback);
+        vm.vidtime = t(slide.timeKey, slide.timeFallback);
+        vm.activeHeroSlide = slide.id;
+      }
       if (pause) {
         stopHeroRotation();
       }
       return true;
     }
 
-    function startHeroRotation() {
+    function queueHeroRotation() {
       if (heroTimer || videoDialogOpen) {
         return;
       }
-      heroTimer = setInterval(() => {
+      heroTimer = setTimeout(() => {
+        heroTimer = null;
         if (videoDialogOpen) {
-          stopHeroRotation();
           return;
         }
         heroIndex = (heroIndex + 1) % heroSlides.length;
         applyHeroSlide(heroIndex, false);
+        queueHeroRotation();
       }, 5500);
+    }
+
+    function startHeroRotation() {
+      if (videoDialogOpen) {
+        return;
+      }
+      stopHeroRotation();
+      queueHeroRotation();
     }
 
     const readyCheck = setInterval(() => {
       const hasProxy = applyHeroSlide(0, false);
       if (hasProxy) {
+        if (extensionCount) {
+          applyExtensionCount(extensionCount);
+        }
         clearInterval(readyCheck);
         startHeroRotation();
       }
     }, 200);
 
-    tiles.forEach((tile) => {
-      tile.addEventListener("mouseenter", () => stopHeroRotation());
+    tiles.forEach((tile, index) => {
+      const setCurrentIndex = () => {
+        heroIndex = index;
+      };
+      tile.addEventListener("mouseenter", () => {
+        setCurrentIndex();
+        stopHeroRotation();
+      });
+      tile.addEventListener("focus", () => {
+        setCurrentIndex();
+        stopHeroRotation();
+      });
+      tile.addEventListener("click", setCurrentIndex);
       tile.addEventListener("mouseleave", () => {
+        if (!videoDialogOpen) {
+          startHeroRotation();
+        }
+      });
+      tile.addEventListener("blur", () => {
         if (!videoDialogOpen) {
           startHeroRotation();
         }
@@ -220,8 +288,18 @@ window.addEventListener("DOMContentLoaded", () => {
       startHeroRotation();
     });
 
+    window.addEventListener("lnbits-extension-count", (event) => {
+      const count = event && event.detail ? Number(event.detail.count) : NaN;
+      if (!Number.isNaN(count)) {
+        applyExtensionCount(count);
+      }
+    });
+
     if (window.LNbitsI18n && typeof window.LNbitsI18n.onChange === "function") {
       window.LNbitsI18n.onChange(() => {
+        if (extensionCount) {
+          applyExtensionCount(extensionCount);
+        }
         applyHeroSlide(heroIndex, false);
       });
     }

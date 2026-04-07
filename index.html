@@ -143,7 +143,7 @@
                       decoding="async"
                     >
                     <div class="ln-landing-product__body">
-                      <span class="ln-landing-product__title d-block" data-i18n="products.saas.title">LNbits SaaS</span>
+                      <span class="ln-landing-product__title d-block" data-i18n="products.saas.title">LNbits Hosted</span>
                       <ul class="ln-landing-product__bullets">
                         <li data-i18n="products.saas.bullet1">Easy</li>
                         <li data-i18n="products.saas.bullet2">Fully managed</li>
@@ -300,6 +300,47 @@
     </section>
     <!-- ====== About End ====== -->
 
+    <section class="ln-section ln-section--demo">
+      <div class="container">
+        <div class="row align-items-center g-4 ln-demo-row">
+          <div class="col-lg-6">
+            <div class="ln-demo-shell">
+              <div class="ln-demo-shell__top">
+                <span data-i18n="demo.request">Request</span>
+                <a class="ln-demo-shell__link" href="https://docs.lnbits.com" target="_blank" rel="noopener noreferrer">docs.lnbits.com</a>
+              </div>
+              <pre class="ln-demo-code"><code>curl -X POST https://YOUR_DOMAIN/api/v1/payments \
+  -H "X-Api-Key: YOUR_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "out": false,
+    "amount": 1000,
+    "memo": "Coffee"
+  }'</code></pre>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="ln-demo-copy">
+              <h2 class="q-pb-md" data-i18n="demo.title">Building on LNbits</h2>
+              <p class="ln-demo-lead" data-i18n="demo.body">
+                LNbits gives you a simple payments API for apps, merchants, kiosks, and automation flows. Infinitely extendable via extension APIs.
+              </p>
+              <div class="ln-demo-metrics">
+                <div class="ln-demo-metric">
+                  <strong data-extension-count>50+</strong>
+                  <span data-i18n="demo.metric2">extensions ready to build on top</span>
+                </div>
+                <div class="ln-demo-metric">
+                  <strong>ANY</strong>
+                  <span data-i18n="demo.metric3">Lightning backend underneath</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- ====== Features Start ====== -->
     <section id="features" class="ud-features ln-section ln-section--bootstrap">
       <div class="container">
@@ -308,11 +349,8 @@
             <center>
             <h2 class="q-pb-lg" data-i18n="bootstrap.title">Bootstrap your bitcoin payments.</h2>
             </center>
-            <div class="row">
-              <div class="col gt-sm">
-                <img src="./assets/images/hero/lightning-funding-sources.png" class="ln-funding-logos ln-funding-logos--spaced" loading="lazy" decoding="async">
-              </div>
-              <div class="col">
+            <div class="row align-items-start g-4">
+              <div class="col-lg-5">
                 <h6 class="q-pb-lg" data-i18n="bootstrap.subtitle" data-i18n-html="true">
                   One API to rule them all.
                   <br />Runs on ANY Lighting Network funding source
@@ -326,12 +364,98 @@
                   <br />✔️ Eyes on the code; huge user and developer community keeping LNbits updated.
                 </p>
               </div>
+              <div class="col-lg-7">
+                <div class="ln-bootstrap-showcase">
+                  <div class="ln-bootstrap-showcase__stage">
+                    <button
+                      type="button"
+                      class="ln-bootstrap-showcase__player"
+                      @click="openHeroVideo()"
+                      :aria-label="'Play ' + vidtitle + ' video'"
+                    >
+                      <img :src="slideimg" alt="LNbits video preview">
+                      <span class="ln-bootstrap-showcase__screen"></span>
+                      <span class="ln-bootstrap-showcase__chip">
+                        <span class="ln-bootstrap-showcase__chip-icon">
+                          <q-icon size="30px" name="play_arrow"></q-icon>
+                        </span>
+                        <span class="ln-bootstrap-showcase__chip-copy">
+                          <span class="ln-bootstrap-showcase__chip-title" v-text="vidtitle"></span>
+                          <small class="ln-bootstrap-showcase__chip-time" v-text="vidtime"></small>
+                        </span>
+                      </span>
+                    </button>
+                  </div>
+                  <div class="ln-bootstrap-showcase__rail" aria-label="LNbits feature videos">
+                    <button
+                      type="button"
+                      class="ln-bootstrap-tile"
+                      :class="{ 'is-active': activeHeroSlide === 'slide1' }"
+                      data-hero-slide="slide1"
+                      @mouseenter="activateHeroSlide('slide1')"
+                      @focus="activateHeroSlide('slide1')"
+                      @click="activateHeroSlide('slide1')"
+                    >
+                      <span class="ln-bootstrap-tile__title" data-i18n="hero.slide1.title">User/Wallet System</span>
+                    </button>
+                    <button
+                      type="button"
+                      class="ln-bootstrap-tile"
+                      :class="{ 'is-active': activeHeroSlide === 'slide2' }"
+                      data-hero-slide="slide2"
+                      @mouseenter="activateHeroSlide('slide2')"
+                      @focus="activateHeroSlide('slide2')"
+                      @click="activateHeroSlide('slide2')"
+                    >
+                      <span class="ln-bootstrap-tile__title" v-text="dynamicExtensionTitle">50+ Extensions</span>
+                    </button>
+                    <button
+                      type="button"
+                      class="ln-bootstrap-tile"
+                      :class="{ 'is-active': activeHeroSlide === 'slide3' }"
+                      data-hero-slide="slide3"
+                      @mouseenter="activateHeroSlide('slide3')"
+                      @focus="activateHeroSlide('slide3')"
+                      @click="activateHeroSlide('slide3')"
+                    >
+                      <span class="ln-bootstrap-tile__title" data-i18n="hero.slide3.title">Admin Tooling</span>
+                    </button>
+                    <button
+                      type="button"
+                      class="ln-bootstrap-tile"
+                      :class="{ 'is-active': activeHeroSlide === 'slide4' }"
+                      data-hero-slide="slide4"
+                      @mouseenter="activateHeroSlide('slide4')"
+                      @focus="activateHeroSlide('slide4')"
+                      @click="activateHeroSlide('slide4')"
+                    >
+                      <span class="ln-bootstrap-tile__title" data-i18n="hero.slide4.title">Supercharged API/SDK</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
 
             </div>
 
           </div>
         </div>
       </div>
+      <q-dialog v-model="ytpopup" @show="notifyVideoDialog(true)" @hide="notifyVideoDialog(false)">
+        <q-card style="width: 90%; max-width: 80vw;" flat class="q-pa-none">
+          <q-card-section class="q-pa-none">
+            <div class="video-container">
+              <iframe
+                :src="'https://www.youtube.com/embed/' + embedLink + '?autoplay=1&showinfo=0&rel=0&modestbranding=1'"
+                title="YouTube video player"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen
+              ></iframe>
+            </div>
+          </q-card-section>
+        </q-card>
+      </q-dialog>
     </section>
     <!-- ====== Features End ====== -->
 
@@ -342,104 +466,12 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-12">
-            <div class="container-pic">
-              <div class="ud-hero-image">
-                <div class="img-gradient">
-                  <img :src="slideimg" alt="hero-image">
-                  </img>
-                </div>
-                <div class="centered-pic">
-                    <q-btn no-caps @click="ytpopup = true" rounded class="ln-video-btn">
-                      <div>
-                        <q-icon style="margin-bottom: -10px;" class="q-pr-sm" size="lg" name="play_arrow"></q-icon>
-                        <span v-text="vidtitle"></span>
-                        <br><small style="display: block; margin-top: -12px; text-align: left; padding-left: 45px;" v-text="vidtime"></small>
-                      </div>
-                    </q-btn>
-                </div>
-              </div>
-            </div>
-            <q-dialog v-model="ytpopup" @show="notifyVideoDialog(true)" @hide="notifyVideoDialog(false)">
-              <q-card style="width: 90%; max-width: 80vw;" flat class="q-pa-none">
-                <q-card-section class="q-pa-none">
-                  <div class="video-container">
-                    <iframe
-                      :src="'https://www.youtube.com/embed/' + embedLink + '?autoplay=1&showinfo=0&rel=0&modestbranding=1'"
-                      title="YouTube video player"
-                      frameborder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      referrerpolicy="strict-origin-when-cross-origin"
-                      allowfullscreen
-                    ></iframe>
-                  </div>
-                </q-card-section>
-              </q-card>
-            </q-dialog>
-
             <center>
-              <div class="row q-mt-xl gt-sm" style="width:80%">
-                <div class="col">
-                  <q-btn
-                    @mouseover="slideimg = 'assets/images/hero/bitcoin-accounts.png'; embedLink = 'b7Ou7XtqtRI'; vidtitle = 'User/Wallet System';  vidtime = '(43 secs)'"
-                    class="ln-btn-tile"
-                    data-hero-slide="slide1">
-                    <div class="row items-center no-wrap">
-                      <div class="text-center">
-                        <span data-i18n="hero.slide1.title">User/Wallet System</span>
-                        <br />
-                        <small data-i18n="hero.slide1.subtitle" data-i18n-html="true">Fully responsive web wallet<br /></small>
-                      </div>
-
-                    </div>
-                  </q-btn>
-                </div>
-                <div class="col">
-                  <q-btn
-                    @mouseover="slideimg = 'assets/images/hero/bitcoin-extensions.png'; embedLink = 'ymq_BXN4lu0'; vidtitle = '50+ Extensions';  vidtime = '(38 secs)'"
-                    class="ln-btn-tile"
-                    data-hero-slide="slide2">
-                    <div class="row items-center no-wrap">
-                      <div class="text-center">
-                        <span data-i18n="hero.slide2.title">50+ Extensions</span>
-                        <br />
-                        <small data-i18n="hero.slide2.subtitle" data-i18n-html="true">extension framework<br /></small>
-                      </div>
-
-                    </div>
-                  </q-btn>
-                </div>
-                <div class="col">
-                  <q-btn
-                    @mouseover="slideimg = 'assets/images/hero/lnbits-node-management.png'; embedLink = 'LMs4bFrvy_Y'; vidtitle = 'Admin Tooling';  vidtime = '(48 secs)'"
-                    class="ln-btn-tile"
-                    data-hero-slide="slide3">
-                    <div class="row items-center no-wrap">
-                      <div class="text-center">
-                        <span data-i18n="hero.slide3.title">Admin Tooling</span>
-                        <br />
-                        <small data-i18n="hero.slide3.subtitle" data-i18n-html="true">For LNbits/node/users<br /></small>
-                      </div>
-
-                    </div>
-                  </q-btn>
-                </div>
-                <div class="col">
-                  <q-btn
-                    @mouseover="slideimg = 'assets/images/hero/lnbits-api-sdk.png'; embedLink = 'b1a5XshX5dA'; vidtitle = 'Supercharged API/SDK';  vidtime = '(38 secs)'"
-                    class="ln-btn-tile"
-                    data-hero-slide="slide4">
-                    <div class="row items-center no-wrap">
-                      <div class="text-center">
-                        <span data-i18n="hero.slide4.title">Supercharged API/SDK</span>
-                        <br />
-                        <small data-i18n="hero.slide4.subtitle" data-i18n-html="true">LNbits core and extensions<br /></small>
-                      </div>
-
-                    </div>
-                  </q-btn>
-                </div>
-
-              </div>
+              <h3 data-i18n="connect.subtitle_html" data-i18n-html="true">
+                Checkout the <a href="https://github.com/lnbits/lnbits">GitHub</a> docs,
+                <a href="https://www.youtube.com/channel/UCGXU2Ae5x5K-5aKdmKqoLYg">YouTube</a> and <a
+                  href="https://github.com/cryptoteun/awesome-lnbits">Awesome LNbits</a>.
+              </h3>
             </center>
           </div>
         </div>
@@ -448,10 +480,7 @@
       <div class="shape">
         <img src="assets/images/faq/shape.svg" alt="shape" loading="lazy" decoding="async" />
       </div>
-
-  </div>
-
-  </section>
+    </section>
   <!-- ====== FAQ End ====== -->
 
   <!-- ====== Footer Start ====== -->
@@ -624,6 +653,7 @@
         track.style.setProperty('--scroll-duration', duration + 's');
         document.documentElement.style.setProperty('--extensions-scroll-duration', duration + 's');
         window.dispatchEvent(new CustomEvent('extensions-scroll-duration', { detail: { duration: duration } }));
+        window.dispatchEvent(new CustomEvent('lnbits-extension-count', { detail: { count: extensions.length } }));
       }
 
       fetch(sourceUrl)

@@ -9,11 +9,14 @@ const app = Vue.createApp({
     el: '#q-app',
     data() {
         return {
-            slideimg: "assets/images/hero/bitcoin-accounts.png",
+            slideimg: "assets/images/hero/1.png",
             ytpopup: false,
             embedLink: "b7Ou7XtqtRI",
             vidtitle: "User/Wallet System",
             vidtime: "(43 secs)",
+            activeHeroSlide: "slide1",
+            dynamicExtensionTitle: "50+ Extensions",
+            extensionCount: null,
             url: "https://api.lnbits.com",
             prompt: false,
             instanceDialog: false,
@@ -43,6 +46,76 @@ const app = Vue.createApp({
     methods: {
         date: function (date) {
           return moment.unix(date).format('YYYY-MM-DD, hh:mm');
+        },
+        updateDynamicExtensionTitle: function(count) {
+            const numericCount = Number(count);
+            if (!numericCount || numericCount <= 0) {
+                return;
+            }
+            this.extensionCount = numericCount;
+
+            const i18n = window.LNbitsI18n;
+            const translated = i18n && typeof i18n.t === "function"
+                ? i18n.t("hero.slide2.title")
+                : "";
+            const fallback = numericCount + " Extensions";
+            const title = translated && /\d+\+?/.test(translated)
+                ? translated.replace(/\d+\+?/, String(numericCount))
+                : fallback;
+
+            this.dynamicExtensionTitle = title;
+            if (this.embedLink === "ymq_BXN4lu0") {
+                this.vidtitle = title;
+            }
+        },
+        activateHeroSlide: function(slideId) {
+            const i18n = window.LNbitsI18n;
+            const t = (key, fallback) => {
+                if (!i18n || typeof i18n.t !== "function") {
+                    return fallback;
+                }
+                return i18n.t(key) || fallback;
+            };
+            const slides = {
+                slide1: {
+                    img: "assets/images/hero/1.png",
+                    embedLink: "b7Ou7XtqtRI",
+                    title: t("hero.slide1.title", "User/Wallet System"),
+                    time: t("hero.slide1.time", "(43 secs)")
+                },
+                slide2: {
+                    img: "assets/images/hero/2.png",
+                    embedLink: "ymq_BXN4lu0",
+                    title: this.dynamicExtensionTitle,
+                    time: t("hero.slide2.time", "(38 secs)")
+                },
+                slide3: {
+                    img: "assets/images/hero/3.png",
+                    embedLink: "LMs4bFrvy_Y",
+                    title: t("hero.slide3.title", "Admin Tooling"),
+                    time: t("hero.slide3.time", "(48 secs)")
+                },
+                slide4: {
+                    img: "assets/images/hero/4.png",
+                    embedLink: "b1a5XshX5dA",
+                    title: t("hero.slide4.title", "Supercharged API/SDK"),
+                    time: t("hero.slide4.time", "(38 secs)")
+                }
+            };
+            const slide = slides[slideId];
+            if (!slide) {
+                return false;
+            }
+            this.activeHeroSlide = slideId;
+            this.slideimg = slide.img;
+            this.embedLink = slide.embedLink;
+            this.vidtitle = slide.title;
+            this.vidtime = slide.time;
+            return true;
+        },
+        openHeroVideo: function() {
+            this.notifyVideoDialog(true);
+            this.ytpopup = true;
         },
         notifyVideoDialog: function (isOpen) {
             window.dispatchEvent(
@@ -287,6 +360,20 @@ const app = Vue.createApp({
         }
     },
     created() {
+        let that = this;
+
+        window.addEventListener("lnbits-extension-count", function(event) {
+            const count = event && event.detail ? event.detail.count : null;
+            that.updateDynamicExtensionTitle(count);
+        });
+
+        if (window.LNbitsI18n && typeof window.LNbitsI18n.onChange === "function") {
+            window.LNbitsI18n.onChange(function() {
+                if (that.extensionCount) {
+                    that.updateDynamicExtensionTitle(that.extensionCount);
+                }
+            });
+        }
     }
 })
 app.use(Quasar, {
@@ -296,4 +383,4 @@ app.use(Quasar, {
 })
 
 
-app.mount('#q-app')
+window.lnbitsLandingApp = app.mount('#q-app')
