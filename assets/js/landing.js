@@ -81,44 +81,7 @@ window.addEventListener("DOMContentLoaded", () => {
   window.document.addEventListener("scroll", onScroll);
 
   (function initHeroRotation() {
-    const heroSlides = [
-      {
-        id: "slide1",
-        img: "assets/images/hero/1.webp",
-        embedLink: "b7Ou7XtqtRI",
-        titleKey: "hero.slide1.title",
-        timeKey: "hero.slide1.time",
-        titleFallback: "User/Wallet System",
-        timeFallback: "(43 secs)"
-      },
-      {
-        id: "slide2",
-        img: "assets/images/hero/2.webp",
-        embedLink: "ymq_BXN4lu0",
-        titleKey: "hero.slide2.title",
-        timeKey: "hero.slide2.time",
-        titleFallback: "50+ Extensions",
-        timeFallback: "(38 secs)"
-      },
-      {
-        id: "slide3",
-        img: "assets/images/hero/3.webp",
-        embedLink: "LMs4bFrvy_Y",
-        titleKey: "hero.slide3.title",
-        timeKey: "hero.slide3.time",
-        titleFallback: "Admin Tooling",
-        timeFallback: "(48 secs)"
-      },
-      {
-        id: "slide4",
-        img: "assets/images/hero/4.webp",
-        embedLink: "b1a5XshX5dA",
-        titleKey: "hero.slide4.title",
-        timeKey: "hero.slide4.time",
-        titleFallback: "Supercharged API/SDK",
-        timeFallback: "(38 secs)"
-      }
-    ];
+    const heroSlides = ["slide1", "slide2", "slide3", "slide4"];
 
     let heroIndex = 0;
     let heroTimer = null;
@@ -138,14 +101,7 @@ window.addEventListener("DOMContentLoaded", () => {
     }
 
     function getHeroProxy() {
-      if (window.lnbitsLandingApp) {
-        return window.lnbitsLandingApp;
-      }
-      const root = document.querySelector("#q-app");
-      if (!root || !root.__vue_app__ || !root.__vue_app__._instance) {
-        return null;
-      }
-      return root.__vue_app__._instance.proxy || null;
+      return window.lnbitsLandingApp || null;
     }
 
     function buildExtensionTitle(count) {
@@ -196,24 +152,14 @@ window.addEventListener("DOMContentLoaded", () => {
         return true;
       }
       const vm = getHeroProxy();
-      if (!vm || !heroSlides[index]) {
+      const slideId = heroSlides[index];
+      if (!vm || !slideId) {
         return false;
       }
-      const slide = heroSlides[index];
-      if (slide.id === "slide2") {
+      if (slideId === "slide2") {
         vm.dynamicExtensionTitle = vm.dynamicExtensionTitle || buildExtensionTitle(extensionCount);
       }
-      if (typeof vm.activateHeroSlide === "function") {
-        vm.activateHeroSlide(slide.id);
-      } else {
-        vm.slideimg = slide.img;
-        vm.embedLink = slide.embedLink;
-        vm.vidtitle = slide.id === "slide2"
-          ? (vm.dynamicExtensionTitle || buildExtensionTitle(extensionCount))
-          : t(slide.titleKey, slide.titleFallback);
-        vm.vidtime = t(slide.timeKey, slide.timeFallback);
-        vm.activeHeroSlide = slide.id;
-      }
+      vm.activateHeroSlide(slideId);
       if (pause) {
         stopHeroRotation();
       }
@@ -576,7 +522,6 @@ window.addEventListener("DOMContentLoaded", () => {
     }
 
     const sourceUrl = "https://raw.githubusercontent.com/lnbits/lnbits-extensions/main/extensions.json";
-    let hasLoaded = false;
 
     function normalizeVersion(version) {
       if (!version) {
@@ -671,11 +616,6 @@ window.addEventListener("DOMContentLoaded", () => {
     }
 
     function loadExtensions() {
-      if (hasLoaded) {
-        return;
-      }
-      hasLoaded = true;
-
       fetch(sourceUrl)
         .then((resp) => resp.json())
         .then((data) => {

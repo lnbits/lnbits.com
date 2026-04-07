@@ -69,7 +69,7 @@
   "frameworks.backend.title_html": "FastAPI <small>(Python)</small>",
   "frameworks.backend.body": "LNbits uses FastAPI, a modern, high-performance Python API framework, that's easy to build on.",
   "connect.title": "Getting started.",
-  "connect.subtitle_html": "Checkout the <a href=\"https://docs.lnbits.com\">docs</a>, <a href=\"https://www.youtube.com/channel/UCGXU2Ae5x5K-5aKdmKqoLYg\">YouTube</a> and <a href=\"https://github.com/lnbits\">Github org</a>.",
+  "connect.subtitle_html": "Checkout the <a href=\"https://docs.lnbits.com\">docs</a>, <a href=\"https://www.youtube.com/channel/UCGXU2Ae5x5K-5aKdmKqoLYg\">YouTube</a> and <a href=\"https://github.com/lnbits\">Org</a>.",
   "community.title": "LNbits Community",
   "community.body": "LNbits has an incredible community of users and developers, exchanging ideas, helping each other, and extending the free and open-source software.",
   "community.join_html": "Join the telegram group <a href=\"https://t.me/lnbits\">t.me/lnbits</a>",

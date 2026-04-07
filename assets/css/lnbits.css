@@ -842,6 +842,9 @@ body.body--dark {
 }
 
 .ln-funding-logos {
+  display: block;
+  max-width: 100%;
+  height: auto;
   opacity: 0.95;
   filter: brightness(1.25) contrast(1.15) saturate(1.05)
     drop-shadow(0 12px 28px rgba(0, 0, 0, 0.35));
