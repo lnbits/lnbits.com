@@ -94,8 +94,8 @@
           <div class="col-lg-12">
             <nav class="navbar navbar-expand-lg">
               <a class="navbar-brand" href="/">
-                <img src="assets/images/logo/logo.svg" class="gt-sm" style="width: 180px; height: auto;" alt="Logo" width="180" height="54" fetchpriority="high" decoding="async" />
-                <img src="assets/images/logo/logo.svg" class="lt-md q-pt-sm" style="width: 100px; height: auto;" alt="Logo" width="100" height="30" fetchpriority="high" decoding="async" />
+                <img src="assets/images/logo/logo.svg" class="gt-sm ln-brand-logo" alt="Logo" width="180" height="54" fetchpriority="high" decoding="async" />
+                <img src="assets/images/logo/logo.svg" class="lt-md q-pt-sm ln-brand-logo ln-brand-logo--mobile" alt="Logo" width="100" height="30" fetchpriority="high" decoding="async" />
               </a>
               <div class="navbar-collapse" id="mainMenu">
                 <ul id="nav" class="navbar-nav mx-auto">
@@ -279,19 +279,20 @@
           <div class="col-lg-12">
             <h2 class="q-pb-lg" data-i18n="features.title">Your Everything App for Payments.</h2>
             <div class="row">
-              <div class="col-7  gt-sm" style="align-items: flex-end;display: flex;">
-                <div class="row" style="align-items: flex-end;">
+              <div class="col-7 gt-sm ln-device-showcase">
+                <div class="row ln-device-showcase__row">
                   <div class="col-3">
                     <img src="./assets/images/hero/pos.webp"
+                      class="ln-device-showcase__pos"
                       width="370"
                       height="502"
-                      style="width:185px; height:auto;" loading="lazy" decoding="async">
+                      loading="lazy" decoding="async">
                   </div>
                   <div class="col-7 q-px-xs">
-                    <img src="./assets/images/hero/desktop.webp" width="900" height="511" style="height:auto; box-shadow: 0 0 10px #483c49;" loading="lazy" decoding="async">
+                    <img src="./assets/images/hero/desktop.webp" class="ln-device-showcase__desktop" width="900" height="511" loading="lazy" decoding="async">
                   </div>
                   <div class="col-2 q-px-xs">
-                    <img src="./assets/images/hero/webwallet.webp" width="190" height="366" style="width:95px; height:auto; box-shadow: 0 0 10px #483c49;" loading="lazy" decoding="async">
+                    <img src="./assets/images/hero/webwallet.webp" class="ln-device-showcase__wallet" width="190" height="366" loading="lazy" decoding="async">
                   </div>
                 </div>
 
@@ -405,9 +406,7 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-12">
-            <center>
-            <h2 class="q-pb-lg" data-i18n="bootstrap.title">Bootstrap your bitcoin payments.</h2>
-            </center>
+            <h2 class="q-pb-lg text-center" data-i18n="bootstrap.title">Bootstrap your bitcoin payments.</h2>
             <div class="row align-items-start g-4">
               <div class="col-lg-6">
                 <div class="ln-bootstrap-copy">
@@ -531,13 +530,11 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-12">
-            <center>
-              <h3 data-i18n="connect.subtitle_html" data-i18n-html="true">
-                Checkout the <a href="https://docs.lnbits.com">docs</a>,
-                <a href="https://www.youtube.com/channel/UCGXU2Ae5x5K-5aKdmKqoLYg">YouTube</a> and <a
-                  href="https://github.com/lnbits">Github org</a>.
-              </h3>
-            </center>
+            <h3 class="text-center" data-i18n="connect.subtitle_html" data-i18n-html="true">
+              Checkout the <a href="https://docs.lnbits.com">docs</a>,
+              <a href="https://www.youtube.com/channel/UCGXU2Ae5x5K-5aKdmKqoLYg">YouTube</a> and <a
+                href="https://github.com/lnbits">Github org</a>.
+            </h3>
           </div>
         </div>
       </div>
@@ -583,7 +580,7 @@
                   <a href="https://njump.me/npub10efcj7x65z2ak6vd69xr8f2hvqwuaqrhlygl3yqa4y63hfvc02mqwzaeh3" title="LNbits on Nostr"
                     target="_blank" rel="noopener noreferrer"
                   >
-                    <img src="assets/images/icon-nostr.png" width="255" height="298" style="height:20px;width:auto" loading="lazy" decoding="async">
+                    <img src="assets/images/icon-nostr.png" class="ln-nostr-icon" width="255" height="298" loading="lazy" decoding="async">
                   </a>
                 </li>
               </ul>
@@ -628,136 +625,8 @@
   <script defer src="assets/js/lang-select.js"></script>
   <script defer src="assets/js/saas.js"></script>
   <script defer src="assets/js/landing.js"></script>
-  <script>
-    window.addEventListener('DOMContentLoaded', function() {
-      var track = document.getElementById('ln-extensions-track');
-      if (!track) return;
-
-      var sourceUrl = 'https://raw.githubusercontent.com/lnbits/lnbits-extensions/main/extensions.json';
-      var hasLoaded = false;
-
-      function normalizeVersion(version) {
-        if (!version) return '0.0.0';
-        return String(version).replace(/^v/i, '').trim();
-      }
-
-      function compareVersions(a, b) {
-        var pa = normalizeVersion(a).split('.').map(Number);
-        var pb = normalizeVersion(b).split('.').map(Number);
-        for (var i = 0; i < Math.max(pa.length, pb.length); i++) {
-          var na = pa[i] || 0;
-          var nb = pb[i] || 0;
-          if (na !== nb) return na - nb;
-        }
-        return 0;
-      }
-
-      function pickLatestExtensions(list) {
-        var byId = {};
-        list.forEach(function(item) {
-          if (!item || !item.id) return;
-          var current = byId[item.id];
-          if (!current) {
-            byId[item.id] = item;
-            return;
-          }
-          if (compareVersions(item.version, current.version) >= 0) {
-            byId[item.id] = item;
-          }
-        });
-        return Object.keys(byId).map(function(key) { return byId[key]; });
-      }
-
-      function buildCard(ext) {
-        var card = document.createElement('a');
-        card.className = 'ln-extension-card';
-        card.href = 'https://extensions.lnbits.com/' + encodeURIComponent(ext.id);
-        card.target = '_blank';
-        card.rel = 'noopener noreferrer';
-
-        var icon = document.createElement('div');
-        icon.className = 'ln-extension-card__icon';
-        if (ext.icon) {
-          var img = document.createElement('img');
-          img.src = ext.icon;
-          img.alt = ext.name || ext.id;
-          img.loading = 'lazy';
-          img.decoding = 'async';
-          icon.appendChild(img);
-        } else {
-          icon.textContent = (ext.name || ext.id || '?').charAt(0).toUpperCase();
-        }
-
-        var text = document.createElement('div');
-        text.className = 'ln-extension-card__text';
-
-        var name = document.createElement('div');
-        name.className = 'ln-extension-card__name';
-        name.textContent = ext.name || ext.id;
-
-        text.appendChild(name);
-
-        card.appendChild(icon);
-        card.appendChild(text);
-        return card;
-      }
-
-      function buildTrack(extensions) {
-        var inner = document.createElement('div');
-        inner.className = 'ln-extensions-wall__grid';
-        extensions.forEach(function(ext) {
-          inner.appendChild(buildCard(ext));
-        });
-
-        var clone = inner.cloneNode(true);
-        track.innerHTML = '';
-        track.appendChild(inner);
-        track.appendChild(clone);
-
-        var cardCount = extensions.length || 1;
-        var duration = Math.max(28, Math.min(90, Math.ceil(cardCount / 2) * 6));
-        track.style.setProperty('--scroll-duration', duration + 's');
-        document.documentElement.style.setProperty('--extensions-scroll-duration', duration + 's');
-        window.dispatchEvent(new CustomEvent('extensions-scroll-duration', { detail: { duration: duration } }));
-        window.dispatchEvent(new CustomEvent('lnbits-extension-count', { detail: { count: extensions.length } }));
-      }
-
-      function loadExtensions() {
-        if (hasLoaded) return;
-        hasLoaded = true;
-
-        fetch(sourceUrl)
-          .then(function(resp) { return resp.json(); })
-          .then(function(data) {
-            var list = (data && data.extensions) ? data.extensions : [];
-            var unique = pickLatestExtensions(list);
-            unique.sort(function(a, b) {
-              var an = (a.name || a.id || '').toLowerCase();
-              var bn = (b.name || b.id || '').toLowerCase();
-              return an.localeCompare(bn);
-            });
-            var padded = unique.slice();
-            if (padded.length) {
-              var remainder = padded.length % 4;
-              if (remainder !== 0) {
-                var needed = 4 - remainder;
-                for (var i = 0; i < needed; i++) {
-                  padded.push(padded[i % padded.length]);
-                }
-              }
-            }
-            buildTrack(padded);
-          })
-          .catch(function() {
-            track.innerHTML = '';
-          });
-      }
-
-      loadExtensions();
-    });
-  </script>
 <div id="lnbits-chat-embed-root">
-  <iframe id="lnbits-chat-embed-iframe" data-src="https://v1.lnbits.com/chat/embed/M8oXVLKhL3RXrxnNXtBBBf?min=1&label=Chat%20to%20us" title="LNbits chat" loading="lazy" style="position:fixed;right:24px;bottom:24px;width:360px;height:56px;border:0;border-radius:12px;box-shadow:0 16px 40px rgba(0,0,0,.35);z-index:9999;transition:height .2s ease;overflow:hidden;background:rgba(0,0,0,.2);"></iframe>
+  <iframe id="lnbits-chat-embed-iframe" class="ln-chat-embed" data-src="https://v1.lnbits.com/chat/embed/M8oXVLKhL3RXrxnNXtBBBf?min=1&label=Chat%20to%20us" title="LNbits chat" loading="lazy"></iframe>
 </div>
 <script>
   (function() {

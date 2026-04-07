@@ -568,4 +568,143 @@ window.addEventListener("DOMContentLoaded", () => {
       });
     }
   })();
+
+  (function initExtensionsWall() {
+    const track = document.getElementById("ln-extensions-track");
+    if (!track) {
+      return;
+    }
+
+    const sourceUrl = "https://raw.githubusercontent.com/lnbits/lnbits-extensions/main/extensions.json";
+    let hasLoaded = false;
+
+    function normalizeVersion(version) {
+      if (!version) {
+        return "0.0.0";
+      }
+      return String(version).replace(/^v/i, "").trim();
+    }
+
+    function compareVersions(a, b) {
+      const pa = normalizeVersion(a).split(".").map(Number);
+      const pb = normalizeVersion(b).split(".").map(Number);
+
+      for (let i = 0; i < Math.max(pa.length, pb.length); i += 1) {
+        const na = pa[i] || 0;
+        const nb = pb[i] || 0;
+        if (na !== nb) {
+          return na - nb;
+        }
+      }
+
+      return 0;
+    }
+
+    function pickLatestExtensions(list) {
+      const byId = {};
+      list.forEach((item) => {
+        if (!item || !item.id) {
+          return;
+        }
+
+        const current = byId[item.id];
+        if (!current || compareVersions(item.version, current.version) >= 0) {
+          byId[item.id] = item;
+        }
+      });
+
+      return Object.keys(byId).map((key) => byId[key]);
+    }
+
+    function buildCard(ext) {
+      const card = document.createElement("a");
+      card.className = "ln-extension-card";
+      card.href = "https://extensions.lnbits.com/" + encodeURIComponent(ext.id);
+      card.target = "_blank";
+      card.rel = "noopener noreferrer";
+
+      const icon = document.createElement("div");
+      icon.className = "ln-extension-card__icon";
+      if (ext.icon) {
+        const img = document.createElement("img");
+        img.src = ext.icon;
+        img.alt = ext.name || ext.id;
+        img.loading = "lazy";
+        img.decoding = "async";
+        icon.appendChild(img);
+      } else {
+        icon.textContent = (ext.name || ext.id || "?").charAt(0).toUpperCase();
+      }
+
+      const text = document.createElement("div");
+      text.className = "ln-extension-card__text";
+
+      const name = document.createElement("div");
+      name.className = "ln-extension-card__name";
+      name.textContent = ext.name || ext.id;
+
+      text.appendChild(name);
+      card.appendChild(icon);
+      card.appendChild(text);
+
+      return card;
+    }
+
+    function buildTrack(extensions) {
+      const inner = document.createElement("div");
+      inner.className = "ln-extensions-wall__grid";
+      extensions.forEach((ext) => {
+        inner.appendChild(buildCard(ext));
+      });
+
+      const clone = inner.cloneNode(true);
+      track.innerHTML = "";
+      track.appendChild(inner);
+      track.appendChild(clone);
+
+      const cardCount = extensions.length || 1;
+      const duration = Math.max(28, Math.min(90, Math.ceil(cardCount / 2) * 6));
+      track.style.setProperty("--scroll-duration", duration + "s");
+      document.documentElement.style.setProperty("--extensions-scroll-duration", duration + "s");
+      window.dispatchEvent(new CustomEvent("extensions-scroll-duration", { detail: { duration } }));
+      window.dispatchEvent(new CustomEvent("lnbits-extension-count", { detail: { count: extensions.length } }));
+    }
+
+    function loadExtensions() {
+      if (hasLoaded) {
+        return;
+      }
+      hasLoaded = true;
+
+      fetch(sourceUrl)
+        .then((resp) => resp.json())
+        .then((data) => {
+          const list = data && data.extensions ? data.extensions : [];
+          const unique = pickLatestExtensions(list);
+          unique.sort((a, b) => {
+            const an = (a.name || a.id || "").toLowerCase();
+            const bn = (b.name || b.id || "").toLowerCase();
+            return an.localeCompare(bn);
+          });
+
+          const padded = unique.slice();
+          if (padded.length) {
+            const remainder = padded.length % 4;
+            if (remainder !== 0) {
+              const needed = 4 - remainder;
+              for (let i = 0; i < needed; i += 1) {
+                padded.push(padded[i % padded.length]);
+              }
+            }
+          }
+
+          buildTrack(padded);
+        })
+        .catch(() => {
+          track.innerHTML = "";
+        });
+    }
+
+    loadExtensions();
+  })();
 });

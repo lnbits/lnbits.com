@@ -215,6 +215,15 @@ body.body--dark {
   filter: drop-shadow(0 0 18px rgba(255, 30, 230, 0.35));
 }
 
+.ln-brand-logo {
+  width: 180px;
+  height: auto;
+}
+
+.ln-brand-logo--mobile {
+  width: 100px;
+}
+
 .ln-landing-fold {
   min-height: 100vh;
   display: flex;
@@ -486,6 +495,27 @@ body.body--dark {
   --ln-section-glow:
     radial-gradient(600px 280px at 20% 20%, rgba(39, 215, 255, 0.18), transparent 60%),
     radial-gradient(500px 260px at 85% 70%, rgba(123, 44, 255, 0.2), transparent 62%);
+}
+
+.ln-device-showcase,
+.ln-device-showcase__row {
+  display: flex;
+  align-items: flex-end;
+}
+
+.ln-device-showcase__pos {
+  width: 185px;
+  height: auto;
+}
+
+.ln-device-showcase__desktop,
+.ln-device-showcase__wallet {
+  height: auto;
+  box-shadow: 0 0 10px #483c49;
+}
+
+.ln-device-showcase__wallet {
+  width: 95px;
 }
 
 .ln-section--extensions {
@@ -815,6 +845,26 @@ body.body--dark {
   opacity: 0.95;
   filter: brightness(1.25) contrast(1.15) saturate(1.05)
     drop-shadow(0 12px 28px rgba(0, 0, 0, 0.35));
+}
+
+.ln-nostr-icon {
+  height: 20px;
+  width: auto;
+}
+
+.ln-chat-embed {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  width: 360px;
+  height: 56px;
+  border: 0;
+  border-radius: 12px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+  z-index: 9999;
+  transition: height 0.2s ease;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.2);
 }
 
 .ln-contrib-strip {
