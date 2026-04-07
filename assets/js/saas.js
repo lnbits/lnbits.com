@@ -44,6 +44,15 @@ const app = Vue.createApp({
         date: function (date) {
           return moment.unix(date).format('YYYY-MM-DD, hh:mm');
         },
+        notifyVideoDialog: function (isOpen) {
+            window.dispatchEvent(
+                new CustomEvent("lnbits-video-dialog", {
+                    detail: {
+                        isOpen: Boolean(isOpen)
+                    }
+                })
+            );
+        },
         showPrompt: function() {
             if (this.logged) {
                 this.createInstance();

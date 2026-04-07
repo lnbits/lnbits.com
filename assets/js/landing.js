@@ -122,6 +122,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
     let heroIndex = 0;
     let heroTimer = null;
+    let videoDialogOpen = false;
 
     const tiles = Array.from(document.querySelectorAll(".ln-btn-tile"));
 
@@ -151,6 +152,12 @@ window.addEventListener("DOMContentLoaded", () => {
     }
 
     function applyHeroSlide(index, pause) {
+      if (videoDialogOpen) {
+        if (pause) {
+          stopHeroRotation();
+        }
+        return true;
+      }
       if (tiles[index]) {
         tiles[index].dispatchEvent(new Event("mouseover", { bubbles: true }));
         if (pause) {
@@ -174,10 +181,14 @@ window.addEventListener("DOMContentLoaded", () => {
     }
 
     function startHeroRotation() {
-      if (heroTimer) {
+      if (heroTimer || videoDialogOpen) {
         return;
       }
       heroTimer = setInterval(() => {
+        if (videoDialogOpen) {
+          stopHeroRotation();
+          return;
+        }
         heroIndex = (heroIndex + 1) % heroSlides.length;
         applyHeroSlide(heroIndex, false);
       }, 5500);
@@ -193,7 +204,20 @@ window.addEventListener("DOMContentLoaded", () => {
 
     tiles.forEach((tile) => {
       tile.addEventListener("mouseenter", () => stopHeroRotation());
-      tile.addEventListener("mouseleave", () => startHeroRotation());
+      tile.addEventListener("mouseleave", () => {
+        if (!videoDialogOpen) {
+          startHeroRotation();
+        }
+      });
+    });
+
+    window.addEventListener("lnbits-video-dialog", (event) => {
+      videoDialogOpen = Boolean(event && event.detail && event.detail.isOpen);
+      if (videoDialogOpen) {
+        stopHeroRotation();
+        return;
+      }
+      startHeroRotation();
     });
 
     if (window.LNbitsI18n && typeof window.LNbitsI18n.onChange === "function") {

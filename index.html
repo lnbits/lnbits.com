@@ -359,7 +359,7 @@
                 </div>
               </div>
             </div>
-            <q-dialog v-model="ytpopup">
+            <q-dialog v-model="ytpopup" @show="notifyVideoDialog(true)" @hide="notifyVideoDialog(false)">
               <q-card style="width: 90%; max-width: 80vw;" flat class="q-pa-none">
                 <q-card-section class="q-pa-none">
                   <div class="video-container">
