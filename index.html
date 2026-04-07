@@ -11,6 +11,24 @@
   <!-- Primary Meta Tags -->
   <meta name="title" content="LNbits - Free Open Source Bitcoin Lightning Wallet Accounts System" data-i18n-attr="content:meta.title" />
   <meta name="description" content="LNbits - Free Open Source Bitcoin Lightning Wallet Accounts System" data-i18n-attr="content:meta.description" />
+  <link rel="canonical" href="https://lnbits.com/" />
+  <link rel="alternate" hreflang="x-default" href="https://lnbits.com/" />
+  <link rel="alternate" hreflang="en" href="https://lnbits.com/" />
+  <link rel="alternate" hreflang="es" href="https://lnbits.com/?lang=es" />
+  <link rel="alternate" hreflang="fr" href="https://lnbits.com/?lang=fr" />
+  <link rel="alternate" hreflang="de" href="https://lnbits.com/?lang=de" />
+  <link rel="alternate" hreflang="pt" href="https://lnbits.com/?lang=pt" />
+  <link rel="alternate" hreflang="it" href="https://lnbits.com/?lang=it" />
+  <link rel="alternate" hreflang="nl" href="https://lnbits.com/?lang=nl" />
+  <link rel="alternate" hreflang="ru" href="https://lnbits.com/?lang=ru" />
+  <link rel="alternate" hreflang="zh" href="https://lnbits.com/?lang=zh" />
+  <link rel="alternate" hreflang="ja" href="https://lnbits.com/?lang=ja" />
+  <link rel="alternate" hreflang="ko" href="https://lnbits.com/?lang=ko" />
+  <link rel="alternate" hreflang="ar" href="https://lnbits.com/?lang=ar" />
+  <link rel="preload" as="image" href="assets/images/logo/logo.svg" />
+  <link rel="preload" as="image" href="assets/images/products/saas_small.webp" />
+  <link rel="preload" as="image" href="assets/images/products/lnbitsbox_small.webp" />
+  <link rel="preload" as="image" href="assets/images/products/github_small.webp" />
 
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website" />
@@ -25,6 +43,33 @@
   <meta property="twitter:title" content="LNBits - Free Open Source Bitcoin Lightning Wallet Accounts System" data-i18n-attr="content:meta.twitter_title" />
   <meta property="twitter:description" content="LNBits - Free Open Source Bitcoin Lightning Wallet Accounts System" data-i18n-attr="content:meta.twitter_description" />
   <meta property="twitter:image" content="https://raw.githubusercontent.com/lnbits/lnbits.com/refs/heads/main/assets/images/thumb.png" />
+  <script>
+    (function () {
+      var supported = ["en", "es", "fr", "de", "pt", "it", "nl", "ru", "zh", "ja", "ko", "ar"];
+      var defaultLang = "en";
+      var params = new URLSearchParams(window.location.search);
+      var requested = params.get("lang");
+      var lang = supported.indexOf(requested) !== -1 ? requested : defaultLang;
+      var canonicalUrl = lang === defaultLang ? "https://lnbits.com/" : "https://lnbits.com/?lang=" + lang;
+
+      document.documentElement.lang = lang;
+
+      var canonical = document.querySelector('link[rel="canonical"]');
+      if (canonical) {
+        canonical.href = canonicalUrl;
+      }
+
+      var ogUrl = document.querySelector('meta[property="og:url"]');
+      if (ogUrl) {
+        ogUrl.setAttribute("content", canonicalUrl);
+      }
+
+      var twitterUrl = document.querySelector('meta[property="twitter:url"]');
+      if (twitterUrl) {
+        twitterUrl.setAttribute("content", canonicalUrl);
+      }
+    })();
+  </script>
 
   <!--====== Favicon Icon ======-->
   <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/svg" />
@@ -49,8 +94,8 @@
           <div class="col-lg-12">
             <nav class="navbar navbar-expand-lg">
               <a class="navbar-brand" href="/">
-                <img src="assets/images/logo/logo.svg" class="gt-sm" style="width: 180px" alt="Logo" />
-                <img src="assets/images/logo/logo.svg" class="lt-md q-pt-sm" style="width: 100px" alt="Logo" />
+                <img src="assets/images/logo/logo.svg" class="gt-sm" style="width: 180px; height: auto;" alt="Logo" width="180" height="54" fetchpriority="high" decoding="async" />
+                <img src="assets/images/logo/logo.svg" class="lt-md q-pt-sm" style="width: 100px; height: auto;" alt="Logo" width="100" height="30" fetchpriority="high" decoding="async" />
               </a>
               <div class="navbar-collapse" id="mainMenu">
                 <ul id="nav" class="navbar-nav mx-auto">
@@ -89,7 +134,7 @@
                 <div>
                   <span data-i18n="button.github">Github</span>
                   <q-icon size="md">
-                    <img src="assets/images/github_white.png" style="width: 24px; height: 24px;" loading="lazy" decoding="async">
+                    <img src="assets/images/github_white.png" style="width: 24px; height: 24px;" width="30" height="30" loading="lazy" decoding="async">
                   </q-icon>
                 </div>
                 <q-tooltip data-i18n="tooltip.github">Checkout the repo</q-tooltip>
@@ -140,9 +185,12 @@
                   >
                     <img
                       class="ln-landing-product__image img-fluid"
-                      src="assets/images/products/saas_small.png"
+                      src="assets/images/products/saas_small.webp"
                       alt="SaaS product image"
+                      width="400"
+                      height="267"
                       loading="eager"
+                      fetchpriority="high"
                       decoding="async"
                     >
                     <div class="ln-landing-product__body">
@@ -163,9 +211,12 @@
                   >
                     <img
                       class="ln-landing-product__image img-fluid"
-                      src="assets/images/products/lnbitsbox_small.png"
+                      src="assets/images/products/lnbitsbox_small.webp"
                       alt="LNbitsBox product image"
+                      width="400"
+                      height="267"
                       loading="eager"
+                      fetchpriority="high"
                       decoding="async"
                     >
                     <div class="ln-landing-product__body">
@@ -186,9 +237,12 @@
                   >
                     <img
                       class="ln-landing-product__image img-fluid"
-                      src="assets/images/products/github_small.png"
+                      src="assets/images/products/github_small.webp"
                       alt="Run Yourself product image"
+                      width="400"
+                      height="267"
                       loading="eager"
+                      fetchpriority="high"
                       decoding="async"
                     >
                     <div class="ln-landing-product__body">
@@ -228,14 +282,16 @@
               <div class="col-7  gt-sm" style="align-items: flex-end;display: flex;">
                 <div class="row" style="align-items: flex-end;">
                   <div class="col-3">
-                    <img src="./assets/images/hero/pos.png"
-                      style="width:185px;" loading="lazy" decoding="async">
+                    <img src="./assets/images/hero/pos.webp"
+                      width="370"
+                      height="502"
+                      style="width:185px; height:auto;" loading="lazy" decoding="async">
                   </div>
                   <div class="col-7 q-px-xs">
-                    <img src="./assets/images/hero/desktop.png" style="box-shadow: 0 0 10px #483c49;" loading="lazy" decoding="async">
+                    <img src="./assets/images/hero/desktop.webp" width="900" height="511" style="height:auto; box-shadow: 0 0 10px #483c49;" loading="lazy" decoding="async">
                   </div>
                   <div class="col-2 q-px-xs">
-                    <img src="./assets/images/hero/webwallet.png" style="width:95px; box-shadow: 0 0 10px #483c49;" loading="lazy" decoding="async">
+                    <img src="./assets/images/hero/webwallet.webp" width="190" height="366" style="width:95px; height:auto; box-shadow: 0 0 10px #483c49;" loading="lazy" decoding="async">
                   </div>
                 </div>
 
@@ -381,7 +437,7 @@
                       @click="openHeroVideo()"
                       :aria-label="'Play ' + vidtitle + ' video'"
                     >
-                      <img :src="slideimg" alt="LNbits video preview">
+                      <img :src="slideimg" alt="LNbits video preview" width="1360" height="711">
                       <span class="ln-bootstrap-showcase__screen"></span>
                       <span class="ln-bootstrap-showcase__chip">
                         <span class="ln-bootstrap-showcase__chip-icon">
@@ -456,6 +512,7 @@
                 :src="'https://www.youtube.com/embed/' + embedLink + '?autoplay=1&showinfo=0&rel=0&modestbranding=1'"
                 title="YouTube video player"
                 frameborder="0"
+                loading="lazy"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 referrerpolicy="strict-origin-when-cross-origin"
                 allowfullscreen
@@ -486,7 +543,7 @@
       </div>
 
       <div class="shape">
-        <img src="assets/images/faq/shape.svg" alt="shape" loading="lazy" decoding="async" />
+        <img src="assets/images/faq/shape.svg" alt="shape" width="1440" height="886" loading="lazy" decoding="async" />
       </div>
     </section>
   <!-- ====== FAQ End ====== -->
@@ -494,13 +551,13 @@
   <!-- ====== Footer Start ====== -->
   <footer class="ud-footer">
     <div class="shape shape-1">
-      <img src="assets/images/footer/shape-1.png" alt="shape" loading="lazy" decoding="async" />
+      <img src="assets/images/footer/shape-1.png" alt="shape" width="570" height="492" loading="lazy" decoding="async" />
     </div>
     <div class="shape shape-2">
-      <img src="assets/images/footer/shape-2.png" alt="shape" loading="lazy" decoding="async" />
+      <img src="assets/images/footer/shape-2.png" alt="shape" width="102" height="102" loading="lazy" decoding="async" />
     </div>
     <div class="shape shape-3">
-      <img src="assets/images/footer/shape-3.png" alt="shape" loading="lazy" decoding="async" />
+      <img src="assets/images/footer/shape-3.png" alt="shape" width="372" height="264" loading="lazy" decoding="async" />
     </div>
     <div class="ud-footer-widgets">
       <div class="container">
@@ -508,7 +565,7 @@
           <div class="col-xl-5 col-lg-4 col-md-6">
             <div class="ud-widget">
               <a href="/" class="ud-footer-logo">
-                <img src="assets/images/logo/logo.svg" alt="logo" loading="lazy" decoding="async" />
+                <img src="assets/images/logo/logo.svg" alt="logo" width="496" height="148" loading="lazy" decoding="async" />
               </a>
               <p class="ud-widget-desc" data-i18n="footer.desc">
                 Free Open-Source Lightning Accounts System with Extensions.
@@ -526,7 +583,7 @@
                   <a href="https://njump.me/npub10efcj7x65z2ak6vd69xr8f2hvqwuaqrhlygl3yqa4y63hfvc02mqwzaeh3" title="LNbits on Nostr"
                     target="_blank" rel="noopener noreferrer"
                   >
-                    <img src="assets/images/icon-nostr.png" style="height:20px;width:auto" loading="lazy" decoding="async">
+                    <img src="assets/images/icon-nostr.png" width="255" height="298" style="height:20px;width:auto" loading="lazy" decoding="async">
                   </a>
                 </li>
               </ul>
@@ -537,7 +594,7 @@
           <div class="col-xl-6 col-lg-6 col-md-8 col-sm-10">
             <div class="ud-widget">
               <div class="col">
-                <img src="./assets/images/hero/lightning-funding-sources.png" class="ln-funding-logos" loading="lazy" decoding="async">
+                <img src="./assets/images/hero/lightning-funding-sources.webp" class="ln-funding-logos" width="685" height="227" loading="lazy" decoding="async">
               </div>
             </div>
           </div>
@@ -561,22 +618,23 @@
 
 
   <!-- ====== All Javascript Files ====== -->
-  <script src="assets/js/vue.global.prod.js"></script>
-  <script src="assets/js/quasar.umd.prod.js"></script>
-  <script src="assets/js/axios.min.js"></script>
-  <script src="assets/js/moment.min.js"></script>
-  <script src="assets/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/js/i18n.js"></script>
-  <script src="assets/js/main.js"></script>
-  <script src="assets/js/lang-select.js"></script>
-  <script src="assets/js/saas.js"></script>
-  <script src="assets/js/landing.js"></script>
+  <script defer src="assets/js/vue.global.prod.js"></script>
+  <script defer src="assets/js/quasar.umd.prod.js"></script>
+  <script defer src="assets/js/axios.min.js"></script>
+  <script defer src="assets/js/moment.min.js"></script>
+  <script defer src="assets/js/bootstrap.bundle.min.js"></script>
+  <script defer src="assets/js/i18n.js"></script>
+  <script defer src="assets/js/main.js"></script>
+  <script defer src="assets/js/lang-select.js"></script>
+  <script defer src="assets/js/saas.js"></script>
+  <script defer src="assets/js/landing.js"></script>
   <script>
-    (function() {
+    window.addEventListener('DOMContentLoaded', function() {
       var track = document.getElementById('ln-extensions-track');
       if (!track) return;
 
-      var sourceUrl = 'https://raw.githubusercontent.com/lnbits/lnbits-extensions/refs/heads/main/extensions.json';
+      var sourceUrl = 'https://raw.githubusercontent.com/lnbits/lnbits-extensions/main/extensions.json';
+      var hasLoaded = false;
 
       function normalizeVersion(version) {
         if (!version) return '0.0.0';
@@ -664,35 +722,42 @@
         window.dispatchEvent(new CustomEvent('lnbits-extension-count', { detail: { count: extensions.length } }));
       }
 
-      fetch(sourceUrl)
-        .then(function(resp) { return resp.json(); })
-        .then(function(data) {
-          var list = (data && data.extensions) ? data.extensions : [];
-          var unique = pickLatestExtensions(list);
-          unique.sort(function(a, b) {
-            var an = (a.name || a.id || '').toLowerCase();
-            var bn = (b.name || b.id || '').toLowerCase();
-            return an.localeCompare(bn);
-          });
-          var padded = unique.slice();
-          if (padded.length) {
-            var remainder = padded.length % 4;
-            if (remainder !== 0) {
-              var needed = 4 - remainder;
-              for (var i = 0; i < needed; i++) {
-                padded.push(padded[i % padded.length]);
+      function loadExtensions() {
+        if (hasLoaded) return;
+        hasLoaded = true;
+
+        fetch(sourceUrl)
+          .then(function(resp) { return resp.json(); })
+          .then(function(data) {
+            var list = (data && data.extensions) ? data.extensions : [];
+            var unique = pickLatestExtensions(list);
+            unique.sort(function(a, b) {
+              var an = (a.name || a.id || '').toLowerCase();
+              var bn = (b.name || b.id || '').toLowerCase();
+              return an.localeCompare(bn);
+            });
+            var padded = unique.slice();
+            if (padded.length) {
+              var remainder = padded.length % 4;
+              if (remainder !== 0) {
+                var needed = 4 - remainder;
+                for (var i = 0; i < needed; i++) {
+                  padded.push(padded[i % padded.length]);
+                }
               }
             }
-          }
-          buildTrack(padded);
-        })
-        .catch(function() {
-          track.innerHTML = '';
-        });
-    })();
+            buildTrack(padded);
+          })
+          .catch(function() {
+            track.innerHTML = '';
+          });
+      }
+
+      loadExtensions();
+    });
   </script>
 <div id="lnbits-chat-embed-root">
-  <iframe id="lnbits-chat-embed-iframe" src="https://v1.lnbits.com/chat/embed/M8oXVLKhL3RXrxnNXtBBBf?min=1&label=Chat%20to%20us" style="position:fixed;right:24px;bottom:24px;width:360px;height:56px;border:0;border-radius:12px;box-shadow:0 16px 40px rgba(0,0,0,.35);z-index:9999;transition:height .2s ease;overflow:hidden;"></iframe>
+  <iframe id="lnbits-chat-embed-iframe" data-src="https://v1.lnbits.com/chat/embed/M8oXVLKhL3RXrxnNXtBBBf?min=1&label=Chat%20to%20us" title="LNbits chat" loading="lazy" style="position:fixed;right:24px;bottom:24px;width:360px;height:56px;border:0;border-radius:12px;box-shadow:0 16px 40px rgba(0,0,0,.35);z-index:9999;transition:height .2s ease;overflow:hidden;background:rgba(0,0,0,.2);"></iframe>
 </div>
 <script>
   (function() {
@@ -700,6 +765,24 @@
     if (!iframe) return;
     var minHeight = 56;
     var maxHeight = 520;
+    var loaded = false;
+
+    function loadChat() {
+      if (loaded) return;
+      loaded = true;
+      iframe.src = iframe.getAttribute('data-src');
+    }
+
+    if ('requestIdleCallback' in window) {
+      window.requestIdleCallback(loadChat, { timeout: 4000 });
+    } else {
+      window.setTimeout(loadChat, 3000);
+    }
+
+    ['pointerdown', 'keydown', 'touchstart', 'scroll'].forEach(function(eventName) {
+      window.addEventListener(eventName, loadChat, { once: true, passive: true });
+    });
+
     window.addEventListener('message', function(event) {
       if (!event.data || event.data.source !== 'lnbits-chat-embed') return;
       iframe.style.height = event.data.open ? maxHeight + 'px' : minHeight + 'px';

@@ -84,7 +84,7 @@ window.addEventListener("DOMContentLoaded", () => {
     const heroSlides = [
       {
         id: "slide1",
-        img: "assets/images/hero/1.png",
+        img: "assets/images/hero/1.webp",
         embedLink: "b7Ou7XtqtRI",
         titleKey: "hero.slide1.title",
         timeKey: "hero.slide1.time",
@@ -93,7 +93,7 @@ window.addEventListener("DOMContentLoaded", () => {
       },
       {
         id: "slide2",
-        img: "assets/images/hero/2.png",
+        img: "assets/images/hero/2.webp",
         embedLink: "ymq_BXN4lu0",
         titleKey: "hero.slide2.title",
         timeKey: "hero.slide2.time",
@@ -102,7 +102,7 @@ window.addEventListener("DOMContentLoaded", () => {
       },
       {
         id: "slide3",
-        img: "assets/images/hero/3.png",
+        img: "assets/images/hero/3.webp",
         embedLink: "LMs4bFrvy_Y",
         titleKey: "hero.slide3.title",
         timeKey: "hero.slide3.time",
@@ -111,7 +111,7 @@ window.addEventListener("DOMContentLoaded", () => {
       },
       {
         id: "slide4",
-        img: "assets/images/hero/4.png",
+        img: "assets/images/hero/4.webp",
         embedLink: "b1a5XshX5dA",
         titleKey: "hero.slide4.title",
         timeKey: "hero.slide4.time",

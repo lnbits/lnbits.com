@@ -9,7 +9,7 @@ const app = Vue.createApp({
     el: '#q-app',
     data() {
         return {
-            slideimg: "assets/images/hero/1.png",
+            slideimg: "assets/images/hero/1.webp",
             ytpopup: false,
             embedLink: "b7Ou7XtqtRI",
             vidtitle: "User/Wallet System",
@@ -78,25 +78,25 @@ const app = Vue.createApp({
             };
             const slides = {
                 slide1: {
-                    img: "assets/images/hero/1.png",
+                    img: "assets/images/hero/1.webp",
                     embedLink: "b7Ou7XtqtRI",
                     title: t("hero.slide1.title", "User/Wallet System"),
                     time: t("hero.slide1.time", "(43 secs)")
                 },
                 slide2: {
-                    img: "assets/images/hero/2.png",
+                    img: "assets/images/hero/2.webp",
                     embedLink: "ymq_BXN4lu0",
                     title: this.dynamicExtensionTitle,
                     time: t("hero.slide2.time", "(38 secs)")
                 },
                 slide3: {
-                    img: "assets/images/hero/3.png",
+                    img: "assets/images/hero/3.webp",
                     embedLink: "LMs4bFrvy_Y",
                     title: t("hero.slide3.title", "Admin Tooling"),
                     time: t("hero.slide3.time", "(48 secs)")
                 },
                 slide4: {
-                    img: "assets/images/hero/4.png",
+                    img: "assets/images/hero/4.webp",
                     embedLink: "b1a5XshX5dA",
                     title: t("hero.slide4.title", "Supercharged API/SDK"),
                     time: t("hero.slide4.time", "(38 secs)")
