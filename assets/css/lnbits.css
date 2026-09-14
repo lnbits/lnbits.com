@@ -260,7 +260,7 @@ body.body--dark {
 }
 
 .ln-hero-intro .ud-hero-title {
-  font-size: var(--ln-hero-title-size, 3.6rem);
+  font-size: var(--ln-hero-title-size, 4rem);
   line-height: 1.05;
   white-space: nowrap;
 }
@@ -268,7 +268,7 @@ body.body--dark {
 .ln-hero-intro .ud-hero-desc {
   display: block;
   margin: 0 auto;
-  font-size: var(--ln-hero-desc-size, 3rem);
+  font-size: var(--ln-hero-desc-size, 2.8rem);
   line-height: 1.08;
   white-space: nowrap;
 }
@@ -1231,6 +1231,10 @@ body.body--dark {
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.6);
   margin-bottom: 12px;
+}
+
+.ln-contrib-label,
+.ln-contrib-metrics {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -1348,7 +1352,7 @@ body.body--dark {
   }
 
   .ln-hero-intro .ud-hero-desc {
-    font-size: clamp(1.4rem, 5.4vw, 2rem);
+    font-size: clamp(1.125rem, 4vw, 1.5rem);
     line-height: 1.15;
     white-space: normal;
   }
