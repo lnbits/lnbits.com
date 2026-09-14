@@ -9,11 +9,19 @@ window.addEventListener("DOMContentLoaded", () => {
   const formats = { linux: "AppImage", windows: "EXE", mac: "DMG" };
   const assets = {};
   const platform = navigator.userAgentData?.platform || navigator.platform || "";
-  const mobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+  const mobile =
+    /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ||
     (/Mac/i.test(platform) && navigator.maxTouchPoints > 1);
-  let selected = mobile ? null : /Win/i.test(platform) ? "windows" :
-    /Mac/i.test(platform) ? "mac" : /Linux/i.test(platform) ? "linux" : null;
+  let selected = null;
+  if (!mobile) {
+    if (/Win/i.test(platform)) selected = "windows";
+    else if (/Mac/i.test(platform)) selected = "mac";
+    else if (/Linux/i.test(platform)) selected = "linux";
+  }
   let state = "loading";
+
+  // The label depends on the selection as well as the current language.
+  label.removeAttribute("data-i18n");
 
   function t(key, fallback) {
     return window.LNbitsI18n?.t(key) || fallback;
@@ -22,15 +30,30 @@ window.addEventListener("DOMContentLoaded", () => {
   function render() {
     const asset = assets[selected];
     link.href = asset?.browser_download_url || releasesUrl;
-    label.removeAttribute("data-i18n");
-    label.textContent = !selected ? t("download.choose", "Choose download") :
-      state === "ready" && !asset ? t("download.releases", "View releases") :
-      t("download.button", "Download {format}").replace("{format}", formats[selected]);
-    status.textContent = state === "error" ?
-      t("download.fallback", "Find available installers on GitHub releases.") :
-      selected && state === "ready" && !asset ?
-        t("download.unavailable", "This installer is not available yet. Check releases or build from source.") :
-        asset?.prerelease ? t("download.preview", "Pre-release") : "";
+    const unavailable = selected && state === "ready" && !asset;
+
+    if (!selected) {
+      label.textContent = t("download.choose", "Choose download");
+    } else if (unavailable) {
+      label.textContent = t("download.releases", "View releases");
+    } else {
+      label.textContent = t("download.button", "Download {format}").replace(
+        "{format}", formats[selected]
+      );
+    }
+
+    status.textContent = "";
+    if (state === "error") {
+      status.textContent = t("download.fallback", "Find available installers on GitHub releases.");
+    } else if (unavailable) {
+      status.textContent = t(
+        "download.unavailable",
+        "This installer is not available yet. Check releases or build from source."
+      );
+    } else if (asset?.prerelease) {
+      status.textContent = t("download.preview", "Pre-release");
+    }
+
     options.forEach((option) => {
       const key = option.dataset.download;
       option.href = assets[key]?.browser_download_url || releasesUrl;
