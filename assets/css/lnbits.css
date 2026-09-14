@@ -284,6 +284,113 @@ body.body--dark {
   white-space: nowrap;
 }
 
+.ln-download {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 24px 0;
+}
+
+.ln-download__title {
+  margin: 0 0 28px;
+  color: var(--ln-text);
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+}
+
+.ln-download__control {
+  display: flex;
+  direction: ltr;
+  border-radius: 16px;
+  background: linear-gradient(135deg, var(--ln-pink), var(--ln-purple));
+  box-shadow: 0 12px 30px rgba(255, 30, 230, 0.25);
+}
+
+.ln-download__button,
+.ln-download__toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60px;
+  color: #0b0c11;
+  background: transparent;
+  border: 0;
+  font: inherit;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.ln-download__button {
+  flex: 1;
+  gap: 10px;
+  padding: 14px 16px;
+  border-radius: 16px 0 0 16px;
+}
+
+.ln-download__button svg {
+  flex-shrink: 0;
+}
+
+.ln-download__toggle {
+  flex: 0 0 48px;
+  border-left: 1px solid rgba(11, 12, 17, 0.25);
+  border-radius: 0 16px 16px 0;
+}
+
+.ln-download__toggle::after {
+  margin: 0;
+}
+
+.ln-download__button:hover,
+.ln-download__toggle:hover {
+  color: #0b0c11;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.ln-download__button:focus-visible,
+.ln-download__toggle:focus-visible {
+  outline: 2px solid white;
+  outline-offset: 3px;
+}
+
+.ln-download__menu {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid rgba(255, 30, 230, 0.3);
+  border-radius: 16px;
+  background: #1c1b2a;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.ln-download__menu .dropdown-item {
+  padding: 12px;
+  border-radius: 8px;
+  color: var(--ln-text);
+  white-space: normal;
+}
+
+.ln-download__menu .dropdown-item:hover,
+.ln-download__menu .dropdown-item:focus,
+.ln-download__menu .dropdown-item.active {
+  color: var(--ln-pink);
+  background: rgba(255, 30, 230, 0.1);
+}
+
+.ln-download__menu .dropdown-divider {
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.ln-download__status {
+  margin: 14px 0 0;
+  color: var(--ln-muted);
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.ln-download__status:empty {
+  display: none;
+}
+
 .ln-landing-product,
 .ln-landing-product:hover,
 .ln-landing-product:focus {
