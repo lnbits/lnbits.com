@@ -233,23 +233,12 @@ body.body--dark {
 .ud-hero {
   position: relative;
   overflow: hidden;
+  background: #000;
+  animation: none;
   padding: 118px 0 8px;
   flex: 1 0 auto;
   display: flex;
   align-items: center;
-}
-
-.ud-hero::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(700px 280px at 20% 0%, rgba(255, 30, 230, 0.25), transparent 60%),
-    radial-gradient(700px 300px at 80% 10%, rgba(39, 215, 255, 0.24), transparent 62%),
-    radial-gradient(520px 240px at 55% 20%, rgba(76, 126, 255, 0.22), transparent 60%);
-  pointer-events: none;
-  background-size: 200% 200%;
-  animation: heroFlow 14s ease-in-out infinite alternate;
 }
 
 .ud-hero > .container {
@@ -411,11 +400,9 @@ body.body--dark {
   padding: 18px 24px;
   color: var(--ln-text);
   text-decoration: none;
-  border: 1px solid rgba(255, 255, 255, 0.13);
+  border: 1px solid var(--ln-pink);
   border-radius: 22px;
-  background:
-    radial-gradient(ellipse at 85% 50%, rgba(174, 39, 255, 0.14), transparent 55%),
-    linear-gradient(120deg, #1c1b2a, #12121e);
+  background: #000;
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
   transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
@@ -424,7 +411,6 @@ body.body--dark {
 .ln-landing-product:focus-visible {
   color: var(--ln-text);
   transform: translateY(-3px);
-  border-color: rgba(255, 30, 230, 0.5);
   box-shadow: 0 16px 32px rgba(0, 0, 0, 0.3);
 }
 
@@ -1433,25 +1419,11 @@ body.body--dark {
   }
 }
 
-@keyframes heroFlow {
-  0% {
-    background-position: 20% 0%, 80% 20%, 50% 10%;
-  }
-  100% {
-    background-position: 40% 20%, 60% 0%, 70% 30%;
-  }
-}
-
 @-moz-document url-prefix() {
   .ud-header,
   .ln-btn-outline,
   .ln-extension-card {
     backdrop-filter: none;
-  }
-
-  .ud-hero,
-  .ud-hero::before {
-    animation: none;
   }
 
   .ln-section::before {
