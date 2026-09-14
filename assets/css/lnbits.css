@@ -268,7 +268,7 @@ body.body--dark {
 .ln-hero-intro .ud-hero-desc {
   display: block;
   margin: 0 auto;
-  font-size: var(--ln-hero-desc-size, 2.8rem);
+  font-size: var(--ln-hero-desc-size, 2.5rem);
   line-height: 1.08;
   white-space: nowrap;
 }

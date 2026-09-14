@@ -24,7 +24,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
     function fitHeroText() {
       fitElement(title, "--ln-hero-title-size", 64, 36);
-      fitElement(desc, "--ln-hero-desc-size", 44.8, 20);
+      fitElement(desc, "--ln-hero-desc-size", 40, 20);
     }
 
     fitHeroText();
