@@ -28,7 +28,6 @@
   <link rel="preload" as="image" href="assets/images/logo/logo.svg" />
   <link rel="preload" as="image" href="assets/images/products/saas_small.webp" />
   <link rel="preload" as="image" href="assets/images/products/lnbitsbox_small.webp" />
-  <link rel="preload" as="image" href="assets/images/products/github_small.webp" />
 
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website" />
@@ -218,94 +217,112 @@
             <div class="col-lg-12">
               <div class="ud-hero-content ln-hero-intro">
                 <h1 class="ud-hero-title">
-                  <span data-i18n="hero.title">The world's most powerful suite of bitcoin tools.</span>
+                  <span data-i18n="hero.title">The world's most powerful payment suite.</span>
                 </h1>
                 <p class="ud-hero-desc mb-1">
-                  <span data-i18n="hero.subtitle">Run for yourself, for others, or as part of a stack.</span>
+                  <span data-i18n="hero.subtitle">Take payments. Use/build extensions. Integrate into your stack.</span>
                 </p>
               </div>
             </div>
           </div>
           <div class="row">
             <div class="col-lg-12">
-              <div class="row justify-content-center align-items-end g-4">
-                <div class="col-12 col-sm-4">
-                  <a
-                    class="ln-landing-product d-flex flex-column text-center"
-                    href="https://my.lnbits.com"
-                    rel="noopener noreferrer"
-                  >
-                    <img
-                      class="ln-landing-product__image img-fluid"
-                      src="assets/images/products/saas_small.webp"
-                      alt="SaaS product image"
-                      width="400"
-                      height="267"
-                      loading="eager"
-                      fetchpriority="high"
-                      decoding="async"
+              <div class="row justify-content-center align-items-center g-4">
+                <div class="col-12 col-md-4">
+                  <div class="ln-download">
+                    <h2 class="ln-download__title" data-i18n="download.title">Start accepting payments in minutes.</h2>
+                    <div class="ln-download__control dropdown">
+                      <a id="ln-download-link" class="ln-download__button" href="https://github.com/lnbits/lnbits/releases">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                          <path d="M12 3v12m-5-5 5 5 5-5M5 16v5h14v-5" />
+                        </svg>
+                        <span id="ln-download-label" data-i18n="download.choose">Choose download</span>
+                      </a>
+                      <button
+                        class="ln-download__toggle dropdown-toggle"
+                        type="button"
+                        id="ln-download-toggle"
+                        data-bs-toggle="dropdown"
+                        data-bs-reference="parent"
+                        aria-expanded="false"
+                        aria-controls="ln-download-menu"
+                        aria-label="Choose your operating system"
+                        data-i18n-attr="aria-label:download.select"
+                      ></button>
+                      <ul class="dropdown-menu ln-download__menu" id="ln-download-menu" aria-labelledby="ln-download-toggle">
+                        <li><a class="dropdown-item" data-download="linux" href="https://github.com/lnbits/lnbits/releases">Linux · AppImage</a></li>
+                        <li><a class="dropdown-item" data-download="windows" href="https://github.com/lnbits/lnbits/releases">Windows · EXE</a></li>
+                        <li><a class="dropdown-item" data-download="mac" href="https://github.com/lnbits/lnbits/releases">macOS · DMG</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="https://github.com/lnbits/lnbits/blob/main/docs/guide/installation.md#option-2-uv-recommended-for-developers" data-i18n="download.source">Build from source</a></li>
+                      </ul>
+                    </div>
+                    <p class="ln-download__status" id="ln-download-status" role="status"></p>
+                  </div>
+                </div>
+                <div class="col-12 col-md-8">
+                  <div class="ln-landing-products">
+                    <a
+                      class="ln-landing-product"
+                      href="https://my.lnbits.com"
+                      rel="noopener noreferrer"
                     >
-                    <div class="ln-landing-product__body">
-                      <span class="ln-landing-product__title d-block" data-i18n="products.saas.title">LNbits Hosted</span>
+                      <span class="ln-landing-product__title" data-i18n="products.saas.title">LNbits Hosted</span>
                       <ul class="ln-landing-product__bullets">
                         <li data-i18n="products.saas.bullet1">Easy</li>
                         <li data-i18n="products.saas.bullet2">Fully managed</li>
                         <li data-i18n="products.saas.bullet3">99.9% uptime</li>
+                        <li data-i18n="products.saas.bullet4">Backups</li>
                       </ul>
-                    </div>
-                  </a>
-                </div>
-                <div class="col-12 col-sm-4">
-                  <a
-                    class="ln-landing-product d-flex flex-column text-center"
-                    href="https://shop.lnbits.com/product/lnbitsbox"
-                    rel="noopener noreferrer"
-                  >
-                    <img
-                      class="ln-landing-product__image img-fluid"
-                      src="assets/images/products/lnbitsbox_small.webp"
-                      alt="LNbitsBox product image"
-                      width="400"
-                      height="267"
-                      loading="eager"
-                      fetchpriority="high"
-                      decoding="async"
+                      <div class="ln-landing-product__visual">
+                        <img
+                          class="ln-landing-product__image"
+                          src="assets/images/products/saas_small.webp"
+                          alt="SaaS product image"
+                          width="400"
+                          height="267"
+                          loading="eager"
+                          fetchpriority="high"
+                          decoding="async"
+                        >
+                      </div>
+                      <span class="ln-landing-product__action" aria-hidden="true">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="M7 17 17 7M7 7h10v10" />
+                        </svg>
+                      </span>
+                    </a>
+                    <a
+                      class="ln-landing-product"
+                      href="https://shop.lnbits.com/product/lnbitsbox"
+                      rel="noopener noreferrer"
                     >
-                    <div class="ln-landing-product__body">
-                      <span class="ln-landing-product__title d-block" data-i18n="products.box.title">LNbits Box</span>
+                      <span class="ln-landing-product__title" data-i18n="products.box.title">LNbits Box</span>
                       <ul class="ln-landing-product__bullets">
                         <li data-i18n="products.box.bullet1">Easy</li>
                         <li data-i18n="products.box.bullet2">Runs locally</li>
                         <li data-i18n="products.box.bullet3">Plug &amp; play hardware</li>
+                        <li data-i18n="products.box.bullet4">NixOS based</li>
                       </ul>
-                    </div>
-                  </a>
-                </div>
-                <div class="col-12 col-sm-4">
-                  <a
-                    class="ln-landing-product d-flex flex-column text-center"
-                    href="https://github.com/lnbits/lnbits"
-                    rel="noopener noreferrer"
-                  >
-                    <img
-                      class="ln-landing-product__image img-fluid"
-                      src="assets/images/products/github_small.webp"
-                      alt="Run Yourself product image"
-                      width="400"
-                      height="267"
-                      loading="eager"
-                      fetchpriority="high"
-                      decoding="async"
-                    >
-                    <div class="ln-landing-product__body">
-                      <span class="ln-landing-product__title d-block" data-i18n="products.selfhost.title">Run Yourself</span>
-                      <ul class="ln-landing-product__bullets">
-                        <li data-i18n="products.selfhost.bullet1">Advanced</li>
-                        <li data-i18n="products.selfhost.bullet2">Run anywhere</li>
-                        <li data-i18n="products.selfhost.bullet3">Complete control</li>
-                      </ul>
-                    </div>
-                  </a>
+                      <div class="ln-landing-product__visual">
+                        <img
+                          class="ln-landing-product__image"
+                          src="assets/images/products/lnbitsbox_small.webp"
+                          alt="LNbitsBox product image"
+                          width="400"
+                          height="267"
+                          loading="eager"
+                          fetchpriority="high"
+                          decoding="async"
+                        >
+                      </div>
+                      <span class="ln-landing-product__action" aria-hidden="true">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="M7 17 17 7M7 7h10v10" />
+                        </svg>
+                      </span>
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
@@ -316,7 +333,11 @@
 
       <section class="ln-contrib-strip">
         <div class="container">
-          <div class="ln-contrib-label" id="ln-repo-metrics" data-i18n="contributors.label">Contributors</div>
+          <div class="ln-contrib-label">
+            <span data-i18n="contributors.open_source">Completely free and open-source</span>
+            <span aria-hidden="true">|</span>
+            <span class="ln-contrib-metrics" id="ln-repo-metrics" data-i18n="contributors.label">Contributors</span>
+          </div>
           <div class="ln-contrib-marquee">
             <div class="ln-contrib-track" id="ln-contrib-track"></div>
           </div>
@@ -677,6 +698,7 @@
   <script defer src="assets/js/lang-select.js"></script>
   <script defer src="assets/js/saas.js"></script>
   <script defer src="assets/js/landing.js"></script>
+  <script defer src="assets/js/download.js"></script>
 <div id="lnbits-chat-embed-root">
   <iframe id="lnbits-chat-embed-iframe" class="ln-chat-embed" data-src="https://support.lnbits.com/chat/embed/oNNbQjpS7yPKPGUeh3vWEW?min=1&label=Chat%20to%20us" title="LNbits chat" loading="lazy"></iframe>
 </div>
