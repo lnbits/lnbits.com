@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="800" viewBox="0 0 900 800" fill="none">
+  <defs>
+    <linearGradient id="arc" x1="0" y1="480" x2="470" y2="265" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ba4be8" stop-opacity=".65"/>
+      <stop offset=".35" stop-color="#ef70e4"/>
+      <stop offset="1" stop-color="#9b39cd" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="glow" x="-160" y="140" width="820" height="560" filterUnits="userSpaceOnUse">
+      <feGaussianBlur stdDeviation="28"/>
+    </filter>
+  </defs>
+  <path d="M-50 550C80 360 245 270 470 265" stroke="url(#arc)" stroke-width="70" opacity=".48" filter="url(#glow)"/>
+  <path d="M-50 550C80 360 245 270 470 265" stroke="url(#arc)" stroke-width="1.5"/>
+</svg>

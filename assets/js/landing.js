@@ -23,11 +23,12 @@ window.addEventListener("DOMContentLoaded", () => {
     }
 
     function fitHeroText() {
-      fitElement(title, "--ln-hero-title-size", 64, 36);
-      fitElement(desc, "--ln-hero-desc-size", 40, 20);
+      fitElement(title, "--ln-hero-title-size", 72, 36);
+      fitElement(desc, "--ln-hero-desc-size", 44, 20);
     }
 
     fitHeroText();
+    document.fonts.ready.then(fitHeroText);
     window.addEventListener("resize", fitHeroText);
 
     if (window.LNbitsI18n && typeof window.LNbitsI18n.onChange === "function") {
@@ -79,6 +80,7 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 
   window.document.addEventListener("scroll", onScroll);
+  onScroll();
 
   (function initHeroRotation() {
     const heroSlides = ["slide1", "slide2", "slide3", "slide4"];
