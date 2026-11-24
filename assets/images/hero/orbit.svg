@@ -5,10 +5,20 @@
       <stop offset=".35" stop-color="#ef70e4"/>
       <stop offset="1" stop-color="#9b39cd" stop-opacity="0"/>
     </linearGradient>
+    <clipPath id="outside-horizon">
+      <path d="M-160 0H900V265H470C245 270 80 360 -50 550H-160Z"/>
+    </clipPath>
+    <filter id="inner-glow" x="-160" y="140" width="820" height="560" filterUnits="userSpaceOnUse">
+      <feGaussianBlur stdDeviation="16"/>
+    </filter>
     <filter id="glow" x="-160" y="140" width="820" height="560" filterUnits="userSpaceOnUse">
       <feGaussianBlur stdDeviation="28"/>
     </filter>
   </defs>
-  <path d="M-50 550C80 360 245 270 470 265" stroke="url(#arc)" stroke-width="70" opacity=".48" filter="url(#glow)"/>
-  <path d="M-50 550C80 360 245 270 470 265" stroke="url(#arc)" stroke-width="1.5"/>
+  <!-- A faint rim glow crosses the horizon; the softer atmosphere stays mostly outside. -->
+  <path d="M-50 550C80 360 245 270 470 265" stroke="url(#arc)" stroke-width="32" opacity=".14" filter="url(#inner-glow)"/>
+  <g clip-path="url(#outside-horizon)">
+    <path d="M-50 550C80 360 245 270 470 265" transform="translate(-8 -14)" stroke="url(#arc)" stroke-width="70" opacity=".3" filter="url(#glow)"/>
+  </g>
+  <path d="M-50 550C80 360 245 270 470 265" stroke="url(#arc)" stroke-width="1.5" opacity=".75"/>
 </svg>
